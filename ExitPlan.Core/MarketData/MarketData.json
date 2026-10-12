@@ -1,0 +1,592 @@
+﻿{
+  "Years": [
+    {
+      "Year": 1928,
+      "EquityReturn": 0.4381,
+      "BondReturn": 0.0084,
+      "InflationRate": -0.017
+    },
+    {
+      "Year": 1929,
+      "EquityReturn": -0.083,
+      "BondReturn": 0.042,
+      "InflationRate": 0
+    },
+    {
+      "Year": 1930,
+      "EquityReturn": -0.2512,
+      "BondReturn": 0.0454,
+      "InflationRate": -0.023
+    },
+    {
+      "Year": 1931,
+      "EquityReturn": -0.4384,
+      "BondReturn": -0.0256,
+      "InflationRate": -0.09
+    },
+    {
+      "Year": 1932,
+      "EquityReturn": -0.0864,
+      "BondReturn": 0.0879,
+      "InflationRate": -0.099
+    },
+    {
+      "Year": 1933,
+      "EquityReturn": 0.4998,
+      "BondReturn": 0.0186,
+      "InflationRate": -0.051
+    },
+    {
+      "Year": 1934,
+      "EquityReturn": -0.0119,
+      "BondReturn": 0.0796,
+      "InflationRate": 0.031
+    },
+    {
+      "Year": 1935,
+      "EquityReturn": 0.4674,
+      "BondReturn": 0.0447,
+      "InflationRate": 0.022
+    },
+    {
+      "Year": 1936,
+      "EquityReturn": 0.3194,
+      "BondReturn": 0.0502,
+      "InflationRate": 0.015
+    },
+    {
+      "Year": 1937,
+      "EquityReturn": -0.3534,
+      "BondReturn": 0.0138,
+      "InflationRate": 0.036
+    },
+    {
+      "Year": 1938,
+      "EquityReturn": 0.2928,
+      "BondReturn": 0.0421,
+      "InflationRate": -0.021
+    },
+    {
+      "Year": 1939,
+      "EquityReturn": -0.011,
+      "BondReturn": 0.0441,
+      "InflationRate": -0.014
+    },
+    {
+      "Year": 1940,
+      "EquityReturn": -0.1067,
+      "BondReturn": 0.054,
+      "InflationRate": 0.007
+    },
+    {
+      "Year": 1941,
+      "EquityReturn": -0.1277,
+      "BondReturn": -0.0202,
+      "InflationRate": 0.05
+    },
+    {
+      "Year": 1942,
+      "EquityReturn": 0.1917,
+      "BondReturn": 0.0229,
+      "InflationRate": 0.109
+    },
+    {
+      "Year": 1943,
+      "EquityReturn": 0.2506,
+      "BondReturn": 0.0249,
+      "InflationRate": 0.061
+    },
+    {
+      "Year": 1944,
+      "EquityReturn": 0.1903,
+      "BondReturn": 0.0258,
+      "InflationRate": 0.017
+    },
+    {
+      "Year": 1945,
+      "EquityReturn": 0.3582,
+      "BondReturn": 0.038,
+      "InflationRate": 0.023
+    },
+    {
+      "Year": 1946,
+      "EquityReturn": -0.0843,
+      "BondReturn": 0.0313,
+      "InflationRate": 0.083
+    },
+    {
+      "Year": 1947,
+      "EquityReturn": 0.052,
+      "BondReturn": 0.0092,
+      "InflationRate": 0.144
+    },
+    {
+      "Year": 1948,
+      "EquityReturn": 0.057,
+      "BondReturn": 0.0195,
+      "InflationRate": 0.081
+    },
+    {
+      "Year": 1949,
+      "EquityReturn": 0.183,
+      "BondReturn": 0.0466,
+      "InflationRate": -0.012
+    },
+    {
+      "Year": 1950,
+      "EquityReturn": 0.3081,
+      "BondReturn": 0.0043,
+      "InflationRate": 0.013
+    },
+    {
+      "Year": 1951,
+      "EquityReturn": 0.2368,
+      "BondReturn": -0.003,
+      "InflationRate": 0.079
+    },
+    {
+      "Year": 1952,
+      "EquityReturn": 0.1815,
+      "BondReturn": 0.0227,
+      "InflationRate": 0.019
+    },
+    {
+      "Year": 1953,
+      "EquityReturn": -0.0121,
+      "BondReturn": 0.0414,
+      "InflationRate": 0.008
+    },
+    {
+      "Year": 1954,
+      "EquityReturn": 0.5256,
+      "BondReturn": 0.0329,
+      "InflationRate": 0.007
+    },
+    {
+      "Year": 1955,
+      "EquityReturn": 0.326,
+      "BondReturn": -0.0134,
+      "InflationRate": -0.004
+    },
+    {
+      "Year": 1956,
+      "EquityReturn": 0.0744,
+      "BondReturn": -0.0226,
+      "InflationRate": 0.015
+    },
+    {
+      "Year": 1957,
+      "EquityReturn": -0.1046,
+      "BondReturn": 0.068,
+      "InflationRate": 0.033
+    },
+    {
+      "Year": 1958,
+      "EquityReturn": 0.4372,
+      "BondReturn": -0.021,
+      "InflationRate": 0.028
+    },
+    {
+      "Year": 1959,
+      "EquityReturn": 0.1206,
+      "BondReturn": -0.0265,
+      "InflationRate": 0.007
+    },
+    {
+      "Year": 1960,
+      "EquityReturn": 0.0034,
+      "BondReturn": 0.1164,
+      "InflationRate": 0.017
+    },
+    {
+      "Year": 1961,
+      "EquityReturn": 0.2664,
+      "BondReturn": 0.0206,
+      "InflationRate": 0.01
+    },
+    {
+      "Year": 1962,
+      "EquityReturn": -0.0881,
+      "BondReturn": 0.0569,
+      "InflationRate": 0.01
+    },
+    {
+      "Year": 1963,
+      "EquityReturn": 0.2261,
+      "BondReturn": 0.0168,
+      "InflationRate": 0.013
+    },
+    {
+      "Year": 1964,
+      "EquityReturn": 0.1642,
+      "BondReturn": 0.0373,
+      "InflationRate": 0.013
+    },
+    {
+      "Year": 1965,
+      "EquityReturn": 0.124,
+      "BondReturn": 0.0072,
+      "InflationRate": 0.016
+    },
+    {
+      "Year": 1966,
+      "EquityReturn": -0.0997,
+      "BondReturn": 0.0291,
+      "InflationRate": 0.029
+    },
+    {
+      "Year": 1967,
+      "EquityReturn": 0.238,
+      "BondReturn": -0.0158,
+      "InflationRate": 0.031
+    },
+    {
+      "Year": 1968,
+      "EquityReturn": 0.1081,
+      "BondReturn": 0.0327,
+      "InflationRate": 0.042
+    },
+    {
+      "Year": 1969,
+      "EquityReturn": -0.0824,
+      "BondReturn": -0.0501,
+      "InflationRate": 0.055
+    },
+    {
+      "Year": 1970,
+      "EquityReturn": 0.0356,
+      "BondReturn": 0.1675,
+      "InflationRate": 0.057
+    },
+    {
+      "Year": 1971,
+      "EquityReturn": 0.1422,
+      "BondReturn": 0.0979,
+      "InflationRate": 0.044
+    },
+    {
+      "Year": 1972,
+      "EquityReturn": 0.1876,
+      "BondReturn": 0.0282,
+      "InflationRate": 0.032
+    },
+    {
+      "Year": 1973,
+      "EquityReturn": -0.1431,
+      "BondReturn": 0.0366,
+      "InflationRate": 0.062
+    },
+    {
+      "Year": 1974,
+      "EquityReturn": -0.259,
+      "BondReturn": 0.0199,
+      "InflationRate": 0.11
+    },
+    {
+      "Year": 1975,
+      "EquityReturn": 0.37,
+      "BondReturn": 0.0361,
+      "InflationRate": 0.091
+    },
+    {
+      "Year": 1976,
+      "EquityReturn": 0.2383,
+      "BondReturn": 0.1598,
+      "InflationRate": 0.058
+    },
+    {
+      "Year": 1977,
+      "EquityReturn": -0.0698,
+      "BondReturn": 0.0129,
+      "InflationRate": 0.065
+    },
+    {
+      "Year": 1978,
+      "EquityReturn": 0.0651,
+      "BondReturn": -0.0078,
+      "InflationRate": 0.076
+    },
+    {
+      "Year": 1979,
+      "EquityReturn": 0.1852,
+      "BondReturn": 0.0067,
+      "InflationRate": 0.113
+    },
+    {
+      "Year": 1980,
+      "EquityReturn": 0.3174,
+      "BondReturn": -0.0299,
+      "InflationRate": 0.135
+    },
+    {
+      "Year": 1981,
+      "EquityReturn": -0.047,
+      "BondReturn": 0.082,
+      "InflationRate": 0.103
+    },
+    {
+      "Year": 1982,
+      "EquityReturn": 0.2042,
+      "BondReturn": 0.3281,
+      "InflationRate": 0.062
+    },
+    {
+      "Year": 1983,
+      "EquityReturn": 0.2234,
+      "BondReturn": 0.032,
+      "InflationRate": 0.032
+    },
+    {
+      "Year": 1984,
+      "EquityReturn": 0.0615,
+      "BondReturn": 0.1373,
+      "InflationRate": 0.043
+    },
+    {
+      "Year": 1985,
+      "EquityReturn": 0.3124,
+      "BondReturn": 0.2571,
+      "InflationRate": 0.036
+    },
+    {
+      "Year": 1986,
+      "EquityReturn": 0.1849,
+      "BondReturn": 0.2428,
+      "InflationRate": 0.019
+    },
+    {
+      "Year": 1987,
+      "EquityReturn": 0.0581,
+      "BondReturn": -0.0496,
+      "InflationRate": 0.036
+    },
+    {
+      "Year": 1988,
+      "EquityReturn": 0.1654,
+      "BondReturn": 0.0822,
+      "InflationRate": 0.041
+    },
+    {
+      "Year": 1989,
+      "EquityReturn": 0.3148,
+      "BondReturn": 0.1769,
+      "InflationRate": 0.048
+    },
+    {
+      "Year": 1990,
+      "EquityReturn": -0.0306,
+      "BondReturn": 0.0624,
+      "InflationRate": 0.054
+    },
+    {
+      "Year": 1991,
+      "EquityReturn": 0.3023,
+      "BondReturn": 0.15,
+      "InflationRate": 0.042
+    },
+    {
+      "Year": 1992,
+      "EquityReturn": 0.0749,
+      "BondReturn": 0.0936,
+      "InflationRate": 0.03
+    },
+    {
+      "Year": 1993,
+      "EquityReturn": 0.0997,
+      "BondReturn": 0.1421,
+      "InflationRate": 0.03
+    },
+    {
+      "Year": 1994,
+      "EquityReturn": 0.0133,
+      "BondReturn": -0.0804,
+      "InflationRate": 0.026
+    },
+    {
+      "Year": 1995,
+      "EquityReturn": 0.372,
+      "BondReturn": 0.2348,
+      "InflationRate": 0.028
+    },
+    {
+      "Year": 1996,
+      "EquityReturn": 0.2268,
+      "BondReturn": 0.0143,
+      "InflationRate": 0.03
+    },
+    {
+      "Year": 1997,
+      "EquityReturn": 0.331,
+      "BondReturn": 0.0994,
+      "InflationRate": 0.023
+    },
+    {
+      "Year": 1998,
+      "EquityReturn": 0.2834,
+      "BondReturn": 0.1492,
+      "InflationRate": 0.016
+    },
+    {
+      "Year": 1999,
+      "EquityReturn": 0.2089,
+      "BondReturn": -0.0825,
+      "InflationRate": 0.022
+    },
+    {
+      "Year": 2000,
+      "EquityReturn": -0.0903,
+      "BondReturn": 0.1666,
+      "InflationRate": 0.034
+    },
+    {
+      "Year": 2001,
+      "EquityReturn": -0.1185,
+      "BondReturn": 0.0557,
+      "InflationRate": 0.028
+    },
+    {
+      "Year": 2002,
+      "EquityReturn": -0.2197,
+      "BondReturn": 0.1512,
+      "InflationRate": 0.016
+    },
+    {
+      "Year": 2003,
+      "EquityReturn": 0.2836,
+      "BondReturn": 0.0038,
+      "InflationRate": 0.023
+    },
+    {
+      "Year": 2004,
+      "EquityReturn": 0.1074,
+      "BondReturn": 0.0449,
+      "InflationRate": 0.027
+    },
+    {
+      "Year": 2005,
+      "EquityReturn": 0.0483,
+      "BondReturn": 0.0287,
+      "InflationRate": 0.034
+    },
+    {
+      "Year": 2006,
+      "EquityReturn": 0.1561,
+      "BondReturn": 0.0196,
+      "InflationRate": 0.032
+    },
+    {
+      "Year": 2007,
+      "EquityReturn": 0.0548,
+      "BondReturn": 0.1021,
+      "InflationRate": 0.028
+    },
+    {
+      "Year": 2008,
+      "EquityReturn": -0.3655,
+      "BondReturn": 0.201,
+      "InflationRate": 0.038
+    },
+    {
+      "Year": 2009,
+      "EquityReturn": 0.2594,
+      "BondReturn": -0.1112,
+      "InflationRate": -0.004
+    },
+    {
+      "Year": 2010,
+      "EquityReturn": 0.1482,
+      "BondReturn": 0.0846,
+      "InflationRate": 0.016
+    },
+    {
+      "Year": 2011,
+      "EquityReturn": 0.021,
+      "BondReturn": 0.1604,
+      "InflationRate": 0.032
+    },
+    {
+      "Year": 2012,
+      "EquityReturn": 0.1589,
+      "BondReturn": 0.0297,
+      "InflationRate": 0.021
+    },
+    {
+      "Year": 2013,
+      "EquityReturn": 0.3215,
+      "BondReturn": -0.091,
+      "InflationRate": 0.015
+    },
+    {
+      "Year": 2014,
+      "EquityReturn": 0.1352,
+      "BondReturn": 0.1075,
+      "InflationRate": 0.016
+    },
+    {
+      "Year": 2015,
+      "EquityReturn": 0.0138,
+      "BondReturn": 0.0128,
+      "InflationRate": 0.001
+    },
+    {
+      "Year": 2016,
+      "EquityReturn": 0.1177,
+      "BondReturn": 0.0069,
+      "InflationRate": 0.013
+    },
+    {
+      "Year": 2017,
+      "EquityReturn": 0.2161,
+      "BondReturn": 0.028,
+      "InflationRate": 0.021
+    },
+    {
+      "Year": 2018,
+      "EquityReturn": -0.0423,
+      "BondReturn": -0.0002,
+      "InflationRate": 0.024
+    },
+    {
+      "Year": 2019,
+      "EquityReturn": 0.3121,
+      "BondReturn": 0.0964,
+      "InflationRate": 0.018
+    },
+    {
+      "Year": 2020,
+      "EquityReturn": 0.1802,
+      "BondReturn": 0.1133,
+      "InflationRate": 0.012
+    },
+    {
+      "Year": 2021,
+      "EquityReturn": 0.2847,
+      "BondReturn": -0.0442,
+      "InflationRate": 0.0704
+    },
+    {
+      "Year": 2022,
+      "EquityReturn": -0.1801,
+      "BondReturn": -0.1783,
+      "InflationRate": 0.0645
+    },
+    {
+      "Year": 2023,
+      "EquityReturn": 0.2629,
+      "BondReturn": 0.0396,
+      "InflationRate": 0.0335
+    },
+    {
+      "Year": 2024,
+      "EquityReturn": 0.2502,
+      "BondReturn": 0.0421,
+      "InflationRate": 0.0289
+    },
+    {
+      "Year": 2025,
+      "EquityReturn": 0.1788,
+      "BondReturn": 0.0429,
+      "InflationRate": 0.0268
+    }
+  ]
+}

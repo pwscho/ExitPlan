@@ -1,0 +1,652 @@
+<Window x:Class="ExitPlan.UI.Views.ResultsSummary"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:lvcCore="clr-namespace:LiveChartsCore.SkiaSharpView;assembly=LiveChartsCore.SkiaSharpView"
+        xmlns:converters="clr-namespace:ExitPlan.UI.Converters"
+        mc:Ignorable="d"
+        Title="Results Summary"
+        Height="700"
+        Width="1100"
+        WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+        <converters:ReportCardWeightConverter x:Key="ReportCardWeightConverter" />
+    </Window.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding Scenario.Name}"
+                   Grid.Row="0"
+                   HorizontalAlignment="Left"
+                   FontWeight="Bold"
+                   FontSize="16"
+                   Margin="0 0 0 8"/>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0 0 0 10">
+            <Button Content="Print Summary"
+                    Command="{Binding PrintSummaryCommand}"
+                    IsEnabled="{Binding HasReport}"
+                    Margin="0 0 10 0"
+                    ToolTip="Save a shareable PDF of this report after Generate Report has run."/>
+            <Button Content="Export to Excel"
+                    Command="{Binding ExportToExcelCommand}"
+                    Margin="0 0 10 0"/>
+        </StackPanel>
+
+        <!-- ========================================================= -->
+        <!-- SUMMARY STATISTICS PANEL -->
+        <!-- ========================================================= -->
+        <Border Background="#F5F5F5"
+                Padding="15"
+                CornerRadius="6"
+                BorderBrush="#DDD"
+                BorderThickness="1"
+                Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- FIXED -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Fixed Simulation"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Margin="0 0 0 8"/>
+                    <TextBlock Text="{Binding FixedSuccessRate, StringFormat=Success Rate: {0:P1}}"/>
+                    <TextBlock Text="{Binding FixedAvgBalance, StringFormat=Avg Ending Balance: {0:C0}}"/>
+                    <TextBlock Text="{Binding FixedMedBalance, StringFormat=Median Ending Balance: {0:C0}}"/>
+                    <TextBlock Text="{Binding FixedTaxesPaid, StringFormat=Avg Taxes Paid: {0:C0}}"/>
+                    <TextBlock Text="{Binding FixedTotalSpending, StringFormat=Total Spending: {0:C0}}"/>
+                </StackPanel>
+
+                <!-- HISTORICAL -->
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Historical Simulation"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Margin="0 0 0 8"/>
+                    <TextBlock Text="{Binding SequenceSuccessRate, StringFormat=Success Rate: {0:P1}}"/>
+                    <TextBlock Text="{Binding SequenceAvgBalance, StringFormat=Avg Ending Balance: {0:C0}}"/>
+                    <TextBlock Text="{Binding SequenceMedBalance, StringFormat=Median Ending Balance: {0:C0}}"/>
+                    <TextBlock Text="{Binding SequenceTaxesPaid, StringFormat=Avg Taxes Paid: {0:C0}}"/>
+                    <TextBlock Text="{Binding Sequence10thPercentile, StringFormat=10th Percentile: {0:C0}}"/>
+                    <TextBlock Text="{Binding Sequence90thPercentile, StringFormat=90th Percentile: {0:C0}}"/>
+                    <TextBlock Text="{Binding HistoricalAvgTotalSpending, StringFormat=Avg Spending: {0:C0}}"/>
+                </StackPanel>
+
+                <!-- MONTE CARLO -->
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Monte Carlo Simulation"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Margin="0 0 0 8"/>
+                    <TextBlock Text="{Binding RandomSuccessRate, StringFormat=Success Rate: {0:P1}}"/>
+                    <TextBlock Text="{Binding RandomAvgBalance, StringFormat=Avg Ending Balance: {0:C0}}"/>
+                    <TextBlock Text="{Binding RandomMedBalance, StringFormat=Median Ending Balance: {0:C0}}"/>
+                    <TextBlock Text="{Binding RandomTaxesPaid, StringFormat=Avg Taxes Paid: {0:C0}}"/>
+                    <TextBlock Text="{Binding Random10thPercentile, StringFormat=10th Percentile: {0:C0}}"/>
+                    <TextBlock Text="{Binding Random90thPercentile, StringFormat=90th Percentile: {0:C0}}"/>
+                    <TextBlock Text="{Binding MonteCarloAvgTotalSpending, StringFormat=Avg Spending: {0:C0}}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ========================================================= -->
+        <!-- TAB CONTROL WITH FOUR TABS (INCLUDING CHARTS) -->
+        <!-- ========================================================= -->
+        <TabControl Grid.Row="2" Margin="0 20 0 0">
+
+            <!-- FIXED -->
+            <TabItem Header="Fixed">
+                <DataGrid ItemsSource="{Binding ListOfFixedResults}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Margin="0 10 0 0">
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                        <DataGridTextColumn Header="Age" Binding="{Binding AgeDisplay}" />
+
+                        <DataGridTextColumn Header="Start Balance"
+                                            Binding="{Binding StartingBalance, StringFormat=C}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="LightYellow" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="+Income"
+                                            Binding="{Binding Income, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="+Social Security"
+                                            Binding="{Binding SocialSecurityIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="+Investment Return"
+                                            Binding="{Binding InvestmentReturn, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="-Spending"
+                                            Binding="{Binding Withdrawal, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="-Taxes Paid"
+                                            Binding="{Binding TaxesPaid, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="=End Balance"
+                                            Binding="{Binding EndingBalance, StringFormat=C}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="LightYellow" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="IRMAA Paid"
+                                            Binding="{Binding IrmaaPaid, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="RMDs"
+                                            Binding="{Binding Rmds, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Conversions"
+                                            Binding="{Binding Conversions, StringFormat=C0}" Width="100"/>
+
+                        <DataGridTextColumn Header="Magi"
+                                            Binding="{Binding Magi, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Taxable Income"
+                                            Binding="{Binding TaxableIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Ordinary Income"
+                                            Binding="{Binding OrdinaryIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Capital Gains"
+                                            Binding="{Binding CapitalGains, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Taxes Due"
+                                            Binding="{Binding TaxesDue, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Base Spending"
+                                            Binding="{Binding BaseSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Add Spending"
+                                            Binding="{Binding AddedSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Acct Withdrawal"
+                                            Binding="{Binding AccountWithdrawals, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Percent Withdrawal"
+                                            Binding="{Binding PercentWithdrawals, StringFormat=P}" />
+
+                        <DataGridTextColumn Header="Guardrail"
+                                            Binding="{Binding GuardrailActionLabel}" />
+
+                        <DataGridTextColumn Header="Inflation-only Spending"
+                                            Binding="{Binding InflationOnlyBaseSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Port. / Baseline"
+                                            Binding="{Binding GuardrailPortfolioPercent, StringFormat=P1}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <!-- HISTORICAL -->
+            <TabItem Header="Historical">
+                <DataGrid ItemsSource="{Binding ListOfHistoricalResults}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Margin="0 10 0 0">
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                        <DataGridTextColumn Header="Age" Binding="{Binding AgeDisplay}" />
+
+                        <DataGridTextColumn Header="Start Balance"
+                                            Binding="{Binding StartingBalance, StringFormat=C}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="LightYellow" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="+Income"
+                                            Binding="{Binding Income, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="+Social Security"
+                                            Binding="{Binding SocialSecurityIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="+Investment Return"
+                                            Binding="{Binding InvestmentReturn, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="-Spending"
+                                            Binding="{Binding Withdrawal, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="-Taxes Paid"
+                                            Binding="{Binding TaxesPaid, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="=End Balance"
+                                            Binding="{Binding EndingBalance, StringFormat=C}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="LightYellow" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="IRMAA Paid"
+                                            Binding="{Binding IrmaaPaid, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="RMDs"
+                                            Binding="{Binding Rmds, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Conversions"
+                                            Binding="{Binding Conversions, StringFormat=C0}" Width="100"/>
+
+                        <DataGridTextColumn Header="Magi"
+                                            Binding="{Binding Magi, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Taxable Income"
+                                            Binding="{Binding TaxableIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Ordinary Income"
+                                            Binding="{Binding OrdinaryIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Capital Gains"
+                                            Binding="{Binding CapitalGains, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Taxes Due"
+                                            Binding="{Binding TaxesDue, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Base Spending"
+                                            Binding="{Binding BaseSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Add Spending"
+                                            Binding="{Binding AddedSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Acct Withdrawal"
+                                            Binding="{Binding AccountWithdrawals, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Percent Withdrawal"
+                                            Binding="{Binding PercentWithdrawals, StringFormat=P}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <!-- MONTE CARLO -->
+            <TabItem Header="Monte Carlo">
+                <DataGrid ItemsSource="{Binding ListOfMonteCarloResults}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          Margin="0 10 0 0">
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                        <DataGridTextColumn Header="Age" Binding="{Binding AgeDisplay}" />
+
+                        <DataGridTextColumn Header="Start Balance"
+                                            Binding="{Binding StartingBalance, StringFormat=C}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="LightYellow" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="+Income"
+                                            Binding="{Binding Income, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="+Social Security"
+                                            Binding="{Binding SocialSecurityIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="+Investment Return"
+                                            Binding="{Binding InvestmentReturn, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="-Spending"
+                                            Binding="{Binding Withdrawal, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="-Taxes Paid"
+                                            Binding="{Binding TaxesPaid, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="=End Balance"
+                                            Binding="{Binding EndingBalance, StringFormat=C}">
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="LightYellow" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="IRMAA Paid"
+                                            Binding="{Binding IrmaaPaid, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="RMDs"
+                                            Binding="{Binding Rmds, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Conversions"
+                                            Binding="{Binding Conversions, StringFormat=C0}" Width="100"/>
+
+                        <DataGridTextColumn Header="Magi"
+                                            Binding="{Binding Magi, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Taxable Income"
+                                            Binding="{Binding TaxableIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Ordinary Income"
+                                            Binding="{Binding OrdinaryIncome, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Capital Gains"
+                                            Binding="{Binding CapitalGains, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Taxes Due"
+                                            Binding="{Binding TaxesDue, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Base Spending"
+                                            Binding="{Binding BaseSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Add Spending"
+                                            Binding="{Binding AddedSpending, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Acct Withdrawal"
+                                            Binding="{Binding AccountWithdrawals, StringFormat=C}" />
+
+                        <DataGridTextColumn Header="Percent Withdrawal"
+                                            Binding="{Binding PercentWithdrawals, StringFormat=P}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <!-- MONTE CARLO GRAPHS -->
+            <TabItem Header="Monte Carlo Graphs">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+
+                        <!-- Histogram -->
+                        <TextBlock Text="Monte Carlo Ending Balance Distribution"
+                                   FontSize="18" FontWeight="Bold" Margin="0 0 0 6"/>
+                        <TextBlock Text="10th–90th percentile outcomes. The long tails (below P10 and above P90) are hidden."
+                                   TextWrapping="Wrap"
+                                   Foreground="#666"
+                                   Margin="0 0 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding MonteCarloSeries}" XAxes="{Binding HistogramAxesX}" YAxes="{Binding HistogramAxesY}" Height="300" />
+                        </Border>
+
+                        <!-- Percentile Trajectories -->
+                        <TextBlock Text="Trajectory Percentile Bands (10th / 50th / 90th)"
+                                   FontSize="18" FontWeight="Bold" Margin="0 20 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding PercentileSeries}" XAxes="{Binding PercentileAxesX}" YAxes="{Binding PercentileAxesY}" Height="300" />
+                        </Border>
+
+                        <!-- Failures by Year -->
+                        <TextBlock Text="Monte Carlo Failures by Year"
+                                   FontSize="18" FontWeight="Bold" Margin="0 20 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding FailureByYearSeries}" Height="300" />
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- FIXED RESULTS GRAPHS -->
+            <TabItem Header="Fixed Results Graphs">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+
+                        <!-- Guardrails (fixed simulation) -->
+                        <StackPanel Visibility="{Binding ShowGuardrailCharts, Converter={StaticResource BoolToVisibility}}">
+                            <TextBlock Text="Guardrails: Spending Path"
+                                       FontSize="18" FontWeight="Bold" Margin="0 0 0 6"/>
+                            <TextBlock Text="Inflation only is base spending if no rail fired. Actual is the spending the engine used. A cut drops Actual; a raise lifts it. A year is cut, floor hit, raise, or none (see the Fixed grid). Spending for a year is set at the end of the prior year, so a rail that fires this year shows as a split next year."
+                                       TextWrapping="Wrap"
+                                       Foreground="#666"
+                                       Margin="0 0 0 10"/>
+                            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                                <lvc:CartesianChart Series="{Binding GuardrailSpendingSeries}"
+                                                    XAxes="{Binding GuardrailSpendingAxesX}"
+                                                    YAxes="{Binding GuardrailSpendingAxesY}"
+                                                    Height="300"
+                                                    LegendPosition="Left" />
+                            </Border>
+
+                            <TextBlock Text="Portfolio vs Guardrail Baseline"
+                                       FontSize="18" FontWeight="Bold" Margin="0 20 0 6"/>
+                            <TextBlock Text="Start-of-year portfolio as a percent of the guardrail baseline, with the lower and upper trigger lines. Crossing a trigger is why that year fired."
+                                       TextWrapping="Wrap"
+                                       Foreground="#666"
+                                       Margin="0 0 0 10"/>
+                            <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White" Margin="0 0 0 20">
+                                <lvc:CartesianChart Series="{Binding GuardrailPortfolioSeries}"
+                                                    XAxes="{Binding GuardrailPortfolioAxesX}"
+                                                    YAxes="{Binding GuardrailPortfolioAxesY}"
+                                                    Height="300"
+                                                    LegendPosition="Left" />
+                            </Border>
+                        </StackPanel>
+
+                        <!-- Ordinary tax brackets (fixed simulation) -->
+                        <TextBlock Text="Ordinary Tax Brackets"
+                                   FontSize="18" FontWeight="Bold" Margin="0 0 0 6"/>
+                        <TextBlock Text="Each bar is that year's ordinary taxable income (after the standard deduction) stacked into the ordinary rates the engine used for that year. The gray segment is remaining room before the next rate — Roth conversion headroom. Brackets come from that year's tax file and inflate when that option is on. Filing status follows the year (MFJ while both are living, Single after a death)."
+                                   TextWrapping="Wrap"
+                                   Foreground="#666"
+                                   Margin="0 0 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White" Margin="0 0 0 20">
+                            <lvc:CartesianChart Series="{Binding OrdinaryBracketFillSeries}"
+                                                XAxes="{Binding OrdinaryBracketFillAxesX}"
+                                                YAxes="{Binding OrdinaryBracketFillAxesY}"
+                                                Height="300"
+                                                LegendPosition="Left" />
+                        </Border>
+
+                        <!-- Income Sources -->
+                        <TextBlock Text="Income Sources"
+                                   FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding StackedIncomeSeries}" XAxes="{Binding StackedIncomeAxesX}" YAxes="{Binding StackedIncomeAxesY}" Height="300" LegendPosition="Left" />
+                        </Border>
+
+                        <!-- Outflows -->
+                        <TextBlock Text="Outflows"
+                                   FontSize="18" FontWeight="Bold" Margin="0 20 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding StackedSpendingSeries}" XAxes="{Binding StackedSpendingAxesX}" YAxes="{Binding StackedSpendingAxesY}" Height="300" LegendPosition="Left" />
+                        </Border>
+
+                        <!-- Spending Sources -->
+                        <TextBlock Text="Spending Sources"
+                                   FontSize="18" FontWeight="Bold" Margin="0 20 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding StackedSpendingSourcesSeries}" XAxes="{Binding StackedSpendingSourcesAxesX}" YAxes="{Binding StackedSpendingSourcesAxesY}" Height="300" LegendPosition="Left" />
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- HISTORICAL GRAPHS -->
+            <TabItem Header="Historical Graphs">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+
+                        <!-- Historical Outcomes -->
+                        <TextBlock Text="Historical Outcomes"
+                                   FontSize="18" FontWeight="Bold" Margin="0 0 0 10"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Padding="10" Background="White">
+                            <lvc:CartesianChart Series="{Binding HistoricalEndingSeries}" XAxes="{Binding HistoricalEndingAxesX}" YAxes="{Binding HistoricalEndingAxesY}" Height="300" />
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- REPORT CARD -->
+            <TabItem Header="Report Card">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+
+                        <!-- Overall Grade -->
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="6" Padding="20" Background="White" Margin="0 0 0 15">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="Overall Retirement Readiness"
+                                               FontSize="20" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding ReportCard.OverallScoreDisplay}"
+                                               FontSize="14" Foreground="#666" Margin="0 4 0 0"/>
+                                </StackPanel>
+
+                                <Border Grid.Column="1"
+                                        Width="80" Height="80"
+                                        CornerRadius="40"
+                                        BorderThickness="3"
+                                        BorderBrush="#333"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#4CAF50"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ReportCard.IsOverallFailing}" Value="True">
+                                                    <Setter Property="Background" Value="#E53935"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <TextBlock Text="{Binding ReportCard.OverallGrade}"
+                                               FontSize="36" FontWeight="Bold" Foreground="White"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <!-- Metrics Table: Weight is the only editable column. -->
+                        <Border BorderBrush="#CCC" BorderThickness="1" CornerRadius="4" Background="White">
+                            <DataGrid ItemsSource="{Binding ReportCard.Metrics}"
+                                      AutoGenerateColumns="False"
+                                      HeadersVisibility="Column"
+                                      CanUserSortColumns="True"
+                                      CanUserAddRows="False"
+                                      CanUserDeleteRows="False"
+                                      SelectionUnit="Cell"
+                                      BorderThickness="0"
+                                      RowHeaderWidth="0">
+                                <DataGrid.Columns>
+
+                                    <!-- Metric Name -->
+                                    <DataGridTextColumn Header="Metric"
+                                                        Binding="{Binding Name}"
+                                                        Width="2*"
+                                                        IsReadOnly="True"/>
+
+                                    <!-- Score -->
+                                    <DataGridTextColumn Header="Score"
+                                                        Binding="{Binding ScoreDisplay}"
+                                                        Width="100"
+                                                        IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsFailing}" Value="True">
+                                                        <Setter Property="Foreground" Value="#E53935"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <!-- Grade -->
+                                    <DataGridTextColumn Header="Grade"
+                                                        Binding="{Binding Grade}"
+                                                        Width="70"
+                                                        IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="FontSize" Value="14"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsFailing}" Value="True">
+                                                        <Setter Property="Foreground" Value="#E53935"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <!-- Weight (editable; values persist on the scenario) -->
+                                    <DataGridTextColumn Header="Weight %"
+                                                        Binding="{Binding Weight, Mode=TwoWay, Converter={StaticResource ReportCardWeightConverter}}"
+                                                        Width="90"
+                                                        IsReadOnly="False">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                        <DataGridTextColumn.EditingElementStyle>
+                                            <Style TargetType="TextBox">
+                                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                <Setter Property="Padding" Value="4,2"/>
+                                            </Style>
+                                        </DataGridTextColumn.EditingElementStyle>
+                                    </DataGridTextColumn>
+
+                                    <!-- Detail -->
+                                    <DataGridTextColumn Header="Details"
+                                                        Binding="{Binding Detail}"
+                                                        Width="3*"
+                                                        IsReadOnly="True"/>
+
+                                </DataGrid.Columns>
+
+                                <!-- Row color coding for failing metrics -->
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsFailing}" Value="True">
+                                                <Setter Property="Background" Value="#FFEBEE"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                            </DataGrid>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

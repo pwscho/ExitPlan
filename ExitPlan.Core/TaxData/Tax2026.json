@@ -1,0 +1,63 @@
+{
+  "Year": 2026,
+  "AdditionalStandardDeductionAge": 65,
+
+  "Single": {
+    "StandardDeduction": 16100,
+    "AdditionalStandardDeduction": 2050,
+    "OrdinaryBrackets": [
+      { "Threshold": 12400, "Rate": 0.10 },
+      { "Threshold": 50400, "Rate": 0.12 },
+      { "Threshold": 105700, "Rate": 0.22 },
+      { "Threshold": 201775, "Rate": 0.24 },
+      { "Threshold": 256225, "Rate": 0.32 },
+      { "Threshold": 640600, "Rate": 0.35 },
+      { "Threshold": 999999999, "Rate": 0.37 }
+    ],
+    "CapitalGainsBrackets": [
+      { "Threshold": 49450, "Rate": 0.00 },
+      { "Threshold": 545500, "Rate": 0.15 },
+      { "Threshold": 999999999, "Rate": 0.20 }
+    ],
+    "IrmaaBrackets": [
+      { "Threshold": 109000, "MonthlySurcharge": 0.00 },
+      { "Threshold": 137000, "MonthlySurcharge": 95.70 },
+      { "Threshold": 171000, "MonthlySurcharge": 240.40 },
+      { "Threshold": 205000, "MonthlySurcharge": 385.00 },
+      { "Threshold": 500000, "MonthlySurcharge": 529.60 },
+      { "Threshold": 999999999, "MonthlySurcharge": 578.00 }
+    ]
+  },
+
+  "MarriedFilingJointly": {
+    "StandardDeduction": 32200,
+    "AdditionalStandardDeduction": 1650,
+    "OrdinaryBrackets": [
+      { "Threshold": 24800, "Rate": 0.10 },
+      { "Threshold": 100800, "Rate": 0.12 },
+      { "Threshold": 211400, "Rate": 0.22 },
+      { "Threshold": 403550, "Rate": 0.24 },
+      { "Threshold": 512450, "Rate": 0.32 },
+      { "Threshold": 768700, "Rate": 0.35 },
+      { "Threshold": 999999999, "Rate": 0.37 }
+    ],
+    "CapitalGainsBrackets": [
+      { "Threshold": 98900, "Rate": 0.00 },
+      { "Threshold": 613700, "Rate": 0.15 },
+      { "Threshold": 999999999, "Rate": 0.20 }
+    ],
+    "IrmaaBrackets": [
+      { "Threshold": 218000, "MonthlySurcharge": 0.00 },
+      { "Threshold": 274000, "MonthlySurcharge": 95.70 },
+      { "Threshold": 342000, "MonthlySurcharge": 240.40 },
+      { "Threshold": 410000, "MonthlySurcharge": 385.00 },
+      { "Threshold": 750000, "MonthlySurcharge": 529.60 },
+      { "Threshold": 999999999, "MonthlySurcharge": 578.00 }
+    ]
+  },
+
+  "SingleSsBaseThreshold": 25000,
+  "SingleSsSecondThreshold": 34000,
+  "MarriedSsBaseThreshold": 32000,
+  "MarriedSsSecondThreshold": 44000
+}

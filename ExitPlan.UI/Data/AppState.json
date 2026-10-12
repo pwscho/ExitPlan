@@ -1,0 +1,308 @@
+{
+  "Scenarios": [
+    {
+      "ScenarioId": "65383220-3b21-4aba-812d-90863745464d",
+      "Scenario": {
+        "Name": "Sample Household",
+        "YearsToCalculate": 42,
+        "RetirementAge": 65,
+        "AnnualSpending": 80000,
+        "SpendingStrategy": "Fixed",
+        "InflationRate": 0.02,
+        "TaxesFromLastYear": 0,
+        "WithdrawalAdjustmentRate": 0.03,
+        "RebalanceAnnually": true,
+        "TargetEquityPercentage": 0.6,
+        "TargetBondPercentage": 0.4,
+        "IncomeStreams": [
+          {
+            "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+            "Name": "Salary",
+            "StartAge": 60,
+            "EndAge": 64,
+            "AnnualAmount": 100000,
+            "IsTaxable": true
+          },
+          {
+            "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+            "Name": "Part-time work",
+            "StartAge": 58,
+            "EndAge": 64,
+            "AnnualAmount": 40000,
+            "IsTaxable": true
+          }
+        ],
+        "WithdrawalStreams": [
+          {
+            "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+            "Name": "Travel",
+            "StartAge": 65,
+            "EndAge": 75,
+            "AnnualAmount": 10000
+          },
+          {
+            "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+            "Name": "Healthcare",
+            "StartAge": 65,
+            "EndAge": 90,
+            "AnnualAmount": 12000
+          }
+        ],
+        "RothConversions": [
+          {
+            "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+            "Name": "Annual conversion",
+            "StartAge": 62,
+            "EndAge": 70,
+            "AnnualAmount": 20000
+          }
+        ],
+        "BaseYear": 2026
+      },
+      "YearsToCalculate": 0,
+      "Name": "Sample Household",
+      "PrimarySocialSecurity": {
+        "UserId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+        "Owner": "Alex",
+        "CurrentAge": 60,
+        "ClaimAge": 67,
+        "DeathAge": 95,
+        "BenefitAtFullRetirementAge": 2400,
+        "Cola": 0.02,
+        "IsSurvivorBenefit": false,
+        "SurvivorBenefitAmount": 0
+      },
+      "SpouseSocialSecurity": {
+        "UserId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+        "Owner": "Sam",
+        "CurrentAge": 58,
+        "ClaimAge": 67,
+        "DeathAge": 95,
+        "BenefitAtFullRetirementAge": 1800,
+        "Cola": 0.02,
+        "IsSurvivorBenefit": false,
+        "SurvivorBenefitAmount": 0
+      },
+      "IsMarried": true,
+      "Accounts": [
+        {
+          "AccountId": "33b2624d-e387-4f31-95b0-eca7e560af9a",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Cash",
+          "TaxBucket": "Tax Free",
+          "RateOfReturn": 0.00,
+          "Value": 5000,
+          "CostBasis": 0,
+          "Priority": 1
+        },
+        {
+          "AccountId": "bdac75ee-3cfd-4435-b3eb-3d185f5c2f76",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Cash",
+          "TaxBucket": "Tax Free",
+          "RateOfReturn": 0.00,
+          "Value": 5000,
+          "CostBasis": 0,
+          "Priority": 2
+        },
+        {
+          "AccountId": "846cf884-c171-4186-99d4-b3669d93ec0f",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Cash",
+          "TaxBucket": "Tax Deferred",
+          "RateOfReturn": 0.00,
+          "Value": 20000,
+          "CostBasis": 0,
+          "Priority": 3
+        },
+        {
+          "AccountId": "226683c0-9f0f-430d-8ce6-bf52bab5462f",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Bonds",
+          "TaxBucket": "Tax Deferred",
+          "RateOfReturn": 0.02,
+          "Value": 80000,
+          "CostBasis": 0,
+          "Priority": 4
+        },
+        {
+          "AccountId": "7d524711-0422-460c-a247-7170e3c4a57f",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Equities",
+          "TaxBucket": "Tax Deferred",
+          "RateOfReturn": 0.08,
+          "Value": 500000,
+          "CostBasis": 0,
+          "Priority": 5
+        },
+        {
+          "AccountId": "af98d520-d80b-4742-a4f7-ae8aa716655e",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Cash",
+          "TaxBucket": "Taxable",
+          "RateOfReturn": 0.00,
+          "Value": 10000,
+          "CostBasis": 10000,
+          "Priority": 6
+        },
+        {
+          "AccountId": "3d8db438-fda6-4f28-9186-7ed4cfc2e213",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Bonds",
+          "TaxBucket": "Taxable",
+          "RateOfReturn": 0.02,
+          "Value": 0,
+          "CostBasis": 0,
+          "Priority": 7
+        },
+        {
+          "AccountId": "5502eb40-1b52-449b-91e7-f3b168f52524",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Equities",
+          "TaxBucket": "Taxable",
+          "RateOfReturn": 0.08,
+          "Value": 100000,
+          "CostBasis": 100000,
+          "Priority": 8
+        },
+        {
+          "AccountId": "d1b64343-dfaf-4025-a24c-a6c2f947d3c1",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Cash",
+          "TaxBucket": "Tax Deferred",
+          "RateOfReturn": 0.00,
+          "Value": 10000,
+          "CostBasis": 0,
+          "Priority": 9
+        },
+        {
+          "AccountId": "4c40c4d8-e056-4524-b11d-4db8fb908014",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Bonds",
+          "TaxBucket": "Tax Deferred",
+          "RateOfReturn": 0.02,
+          "Value": 0,
+          "CostBasis": 0,
+          "Priority": 10
+        },
+        {
+          "AccountId": "caeed484-e04e-4209-b5f1-5c7e4389491a",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Equities",
+          "TaxBucket": "Tax Deferred",
+          "RateOfReturn": 0.08,
+          "Value": 300000,
+          "CostBasis": 0,
+          "Priority": 11
+        },
+        {
+          "AccountId": "2911ab81-1ffa-4716-9b6e-aaa8458982da",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Cash",
+          "TaxBucket": "Taxable",
+          "RateOfReturn": 0.00,
+          "Value": 10000,
+          "CostBasis": 10000,
+          "Priority": 12
+        },
+        {
+          "AccountId": "4e4af51e-9a09-4f2c-9156-eba289b98ef1",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Bonds",
+          "TaxBucket": "Taxable",
+          "RateOfReturn": 0.02,
+          "Value": 0,
+          "CostBasis": 0,
+          "Priority": 13
+        },
+        {
+          "AccountId": "0d565e4e-8412-4162-90d4-22823d016169",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Equities",
+          "TaxBucket": "Taxable",
+          "RateOfReturn": 0.08,
+          "Value": 80000,
+          "CostBasis": 80000,
+          "Priority": 14
+        },
+        {
+          "AccountId": "617e1a24-1fdb-4fbe-9978-78a4f92eab2b",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Bonds",
+          "TaxBucket": "Tax Free",
+          "RateOfReturn": 0.02,
+          "Value": 0,
+          "CostBasis": 0,
+          "Priority": 15
+        },
+        {
+          "AccountId": "87c1b711-32fd-4ac7-8c64-ae8cd9b0a32c",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Bonds",
+          "TaxBucket": "Tax Free",
+          "RateOfReturn": 0.02,
+          "Value": 0,
+          "CostBasis": 0,
+          "Priority": 16
+        },
+        {
+          "AccountId": "16a45b41-5c12-4818-b704-9a1a0c073a24",
+          "Name": "",
+          "OwnerId": "fed3e461-8586-461d-9118-346de5d6b7d6",
+          "Owner": "Alex",
+          "AssetClass": "Equities",
+          "TaxBucket": "Tax Free",
+          "RateOfReturn": 0.08,
+          "Value": 50000,
+          "CostBasis": 0,
+          "Priority": 17
+        },
+        {
+          "AccountId": "244c74e0-0d25-4975-a30e-175d1a20d5d2",
+          "Name": "",
+          "OwnerId": "2fba2ddb-94ad-49b0-8232-ee4c49913522",
+          "Owner": "Sam",
+          "AssetClass": "Equities",
+          "TaxBucket": "Tax Free",
+          "RateOfReturn": 0.08,
+          "Value": 40000,
+          "CostBasis": 0,
+          "Priority": 18
+        }
+      ]
+    }
+  ],
+  "LastSelectedScenarioId": "65383220-3b21-4aba-812d-90863745464d"
+}

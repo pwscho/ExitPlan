@@ -1,0 +1,31 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExitPlan.UI", "..\ExitPlan.UI\ExitPlan.UI.csproj", "{53A7D1BC-E226-4B4D-A5EA-2CF432EEE324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExitPlan.Core", "..\ExitPlan.Core\ExitPlan.Core.csproj", "{EEA6CF20-1CAB-4E37-B30D-363AA428A82E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53A7D1BC-E226-4B4D-A5EA-2CF432EEE324}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53A7D1BC-E226-4B4D-A5EA-2CF432EEE324}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53A7D1BC-E226-4B4D-A5EA-2CF432EEE324}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53A7D1BC-E226-4B4D-A5EA-2CF432EEE324}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA6CF20-1CAB-4E37-B30D-363AA428A82E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA6CF20-1CAB-4E37-B30D-363AA428A82E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA6CF20-1CAB-4E37-B30D-363AA428A82E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA6CF20-1CAB-4E37-B30D-363AA428A82E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13A9061B-3514-445C-9BD5-FB525348F34D}
+	EndGlobalSection
+EndGlobal

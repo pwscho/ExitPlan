@@ -1,0 +1,57 @@
+<Window x:Class="ExitPlan.UI.Views.MonteCarloSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Monte Carlo Settings"
+        Height="260"
+        Width="440"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Monte Carlo Settings"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Margin="0 0 0 15"/>
+
+        <StackPanel Grid.Row="1" Margin="0 10 0 10">
+
+            <StackPanel Orientation="Horizontal" Margin="0 2 0 8">
+                <TextBlock Text="Simulations:" Width="120" VerticalAlignment="Center"/>
+                <TextBox Width="125"
+                         Text="{Binding MonteCarloSimulations, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Number of random market paths to run when you generate a report. The same count plus the same seed produces the same paths."/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 2">
+                <TextBlock Text="Seed:" Width="120" VerticalAlignment="Center"/>
+                <TextBox Width="125"
+                         Text="{Binding MonteCarloSeed, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Integer seed for Monte Carlo market paths. Leave unchanged to compare scenarios on the same random years. Randomize picks a new seed; reports do not randomize automatically."/>
+                <Button Content="Randomize"
+                        Command="{Binding RandomizeMonteCarloSeedCommand}"
+                        Margin="8 0 0 0"
+                        Padding="8 2"
+                        ToolTip="Replace the seed with a new positive integer. OK saves it with the scenario; Cancel discards it."/>
+            </StackPanel>
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK"
+                    Width="80"
+                    Margin="0 0 10 0"
+                    IsDefault="True"
+                    Command="{Binding SaveCommand}"/>
+
+            <Button Content="Cancel"
+                    Width="80"
+                    IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>

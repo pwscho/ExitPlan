@@ -1,0 +1,157 @@
+# Self-contained win-x64 publish + Velopack installer and update packages.
+# On a v* tag (or workflow_dispatch with create_release), upload them to the GitHub Release.
+name: Windows installer
+
+on:
+  push:
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: "Create a GitHub Release and upload Velopack packages"
+        type: boolean
+        default: true
+      tag:
+        description: "Release tag (empty = v + Version from ExitPlan.UI.csproj, e.g. v2.3.0)"
+        required: false
+        type: string
+        default: ""
+
+concurrency:
+  group: windows-installer-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Tests and packaging checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Run ExitPlan.Core.Tests
+        run: dotnet test ExitPlan.Core.Tests/ExitPlan.Core.Tests.csproj --configuration Release --nologo
+
+      - name: Build ExitPlan.UI
+        run: dotnet build ExitPlan.UI/ExitPlan.UI.csproj --configuration Release --nologo
+
+      - name: Verify packaging recipe
+        run: python3 installer/verify-packaging.py
+
+  installer:
+    name: Publish and Velopack
+    needs: test
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    outputs:
+      app_version: ${{ steps.version.outputs.APP_VERSION }}
+      release_tag: ${{ steps.version.outputs.RELEASE_TAG }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Read app version
+        id: version
+        shell: pwsh
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          $csproj = Join-Path $env:GITHUB_WORKSPACE "ExitPlan.UI\ExitPlan.UI.csproj"
+          $text = Get-Content -LiteralPath $csproj -Raw
+          $match = [regex]::Match($text, "<Version>([^<]+)</Version>")
+          if (-not $match.Success) {
+            throw "Could not read <Version> from ExitPlan.UI.csproj"
+          }
+          $version = $match.Groups[1].Value.Trim()
+          $expectedTag = "v$version"
+
+          $releaseTag = $expectedTag
+          if ($env:GITHUB_REF_TYPE -eq "tag") {
+            $releaseTag = $env:GITHUB_REF_NAME
+            if ($releaseTag -ne $expectedTag) {
+              throw "Tag '$releaseTag' does not match ExitPlan.UI.csproj <Version> $version (expected $expectedTag). Bump the csproj version or retag."
+            }
+          }
+          elseif ($env:GITHUB_EVENT_NAME -eq "workflow_dispatch") {
+            $inputTag = ($env:INPUT_TAG ?? "").Trim()
+            if ($inputTag) {
+              $releaseTag = $inputTag
+            }
+            if ($releaseTag -ne $expectedTag) {
+              throw "Release tag '$releaseTag' does not match ExitPlan.UI.csproj <Version> $version (expected $expectedTag)."
+            }
+          }
+
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "APP_VERSION=$version"
+          Add-Content -Path $env:GITHUB_OUTPUT -Value "RELEASE_TAG=$releaseTag"
+          Write-Host "App version: $version"
+          Write-Host "Release tag: $releaseTag"
+
+      - name: Install Velopack CLI
+        shell: pwsh
+        run: |
+          dotnet tool install --global vpk --version 1.2.161
+          if ($LASTEXITCODE -ne 0) {
+            dotnet tool update --global vpk --version 1.2.161
+            if ($LASTEXITCODE -ne 0) { throw "Could not install vpk 1.2.161" }
+          }
+          $tools = Join-Path $env:USERPROFILE ".dotnet\tools"
+          Add-Content -Path $env:GITHUB_PATH -Value $tools
+          Write-Host "vpk tools: $tools"
+
+      - name: Download previous release for deltas
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+          # Public releases repo. No token. A missing previous Velopack release
+          # must not fail the build.
+          vpk download github --repoUrl "https://github.com/pwscho/ExitPlan" --outputDir artifacts --channel win
+
+      - name: Publish self-contained win-x64 and vpk pack
+        shell: pwsh
+        run: |
+          Set-Location $env:GITHUB_WORKSPACE
+          ./publish.ps1 -SkipDownload
+
+      - name: Upload Velopack artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ExitPlan-Velopack-${{ steps.version.outputs.APP_VERSION }}
+          if-no-files-found: error
+          path: |
+            artifacts/ExitPlan-win-Setup.exe
+            artifacts/*.nupkg
+            artifacts/releases.win.json
+
+      - name: Upload Velopack packages to the public GitHub Release
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.create_release)
+        shell: pwsh
+        env:
+          # vpk upload creates a Release, which GitHub does not allow anonymously.
+          # This must be a token that can write releases on the public repo.
+          # The private source repo's GITHUB_TOKEN cannot.
+          RELEASE_TOKEN: ${{ secrets.EXITPLAN_RELEASE_TOKEN }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:RELEASE_TOKEN)) {
+            throw "Set the Actions secret EXITPLAN_RELEASE_TOKEN to a token with permission to create releases on https://github.com/pwscho/ExitPlan. Downloads and in-app update checks do not use a token."
+          }
+          vpk upload github --repoUrl "https://github.com/pwscho/ExitPlan" --token "$env:RELEASE_TOKEN" --outputDir artifacts --channel win --publish --tag "${{ steps.version.outputs.RELEASE_TAG }}" --releaseName "ExitPlan ${{ steps.version.outputs.APP_VERSION }}"

@@ -1,0 +1,139 @@
+<UserControl x:Class="ExitPlan.UI.Views.FilingStatusTaxTableView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:ExitPlan.UI.Converters">
+
+    <UserControl.Resources>
+        <converters:DecimalToPercentConverter x:Key="PercentConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel Margin="0,8,0,0">
+
+        <TextBlock Text="{Binding Title}"
+                   Style="{StaticResource SectionHeader}"
+                   Margin="0,0,0,8"/>
+
+        <TextBlock Text="Standard deduction"
+                   Style="{StaticResource FieldLabel}"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock Text="$"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"
+                       Foreground="{StaticResource TextSecondaryBrush}"/>
+            <TextBox Width="160"
+                     Text="{Binding StandardDeduction, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Standard deduction used to reduce ordinary income for this filing status."/>
+        </StackPanel>
+
+        <TextBlock Text="{Binding AdditionalStandardDeductionLabel}"
+                   Style="{StaticResource FieldLabel}"/>
+        <TextBlock Text="{Binding AdditionalStandardDeductionHint}"
+                   FontSize="11"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,6"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <TextBlock Text="$"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"
+                       Foreground="{StaticResource TextSecondaryBrush}"/>
+            <TextBox Width="160"
+                     Text="{Binding AdditionalStandardDeduction, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="{Binding AdditionalStandardDeductionHint}"/>
+        </StackPanel>
+
+        <TextBlock Text="Ordinary income brackets"
+                   Style="{StaticResource SubSectionHeader}"
+                   Margin="0,4,0,4"/>
+        <TextBlock Text="Each row is the upper income threshold for that rate. Use a very large last threshold for the top open-ended bracket."
+                   FontSize="11"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,8"/>
+
+        <DataGrid ItemsSource="{Binding OrdinaryBrackets}"
+                  SelectedItem="{Binding SelectedOrdinaryBracket, Mode=TwoWay}"
+                  Height="210"
+                  Margin="0,0,0,8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Income up to ($)"
+                                    Width="*"
+                                    Binding="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Rate (%)"
+                                    Width="140"
+                                    Binding="{Binding Rate, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PercentConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <Button Content="Add bracket"
+                    Style="{StaticResource ButtonText}"
+                    Command="{Binding AddOrdinaryBracketCommand}"/>
+            <Button Content="Remove selected"
+                    Style="{StaticResource ButtonDanger}"
+                    Command="{Binding RemoveOrdinaryBracketCommand}"/>
+        </StackPanel>
+
+        <TextBlock Text="Long-term capital gains brackets"
+                   Style="{StaticResource SubSectionHeader}"
+                   Margin="0,4,0,4"/>
+        <TextBlock Text="Rates apply after ordinary taxable income is stacked into the capital-gains brackets."
+                   FontSize="11"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,8"/>
+
+        <DataGrid ItemsSource="{Binding CapitalGainsBrackets}"
+                  SelectedItem="{Binding SelectedCapitalGainsBracket, Mode=TwoWay}"
+                  Height="150"
+                  Margin="0,0,0,8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Income up to ($)"
+                                    Width="*"
+                                    Binding="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Rate (%)"
+                                    Width="140"
+                                    Binding="{Binding Rate, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PercentConverter}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+            <Button Content="Add bracket"
+                    Style="{StaticResource ButtonText}"
+                    Command="{Binding AddCapitalGainsBracketCommand}"/>
+            <Button Content="Remove selected"
+                    Style="{StaticResource ButtonDanger}"
+                    Command="{Binding RemoveCapitalGainsBracketCommand}"/>
+        </StackPanel>
+
+        <TextBlock Text="IRMAA (Medicare Part B / D) MAGI cliffs"
+                   Style="{StaticResource SubSectionHeader}"
+                   Margin="0,4,0,4"/>
+        <TextBlock Text="Monthly surcharge is the extra Medicare amount at that MAGI cliff. The engine annualizes it (× 12). The files store a single combined surcharge, not separate Part B and Part D columns."
+                   FontSize="11"
+                   Foreground="{StaticResource TextSecondaryBrush}"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,8"/>
+
+        <DataGrid ItemsSource="{Binding IrmaaBrackets}"
+                  SelectedItem="{Binding SelectedIrmaaBracket, Mode=TwoWay}"
+                  Height="190"
+                  Margin="0,0,0,8">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="MAGI up to ($)"
+                                    Width="*"
+                                    Binding="{Binding Threshold, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Monthly surcharge ($)"
+                                    Width="180"
+                                    Binding="{Binding MonthlySurcharge, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Add cliff"
+                    Style="{StaticResource ButtonText}"
+                    Command="{Binding AddIrmaaBracketCommand}"/>
+            <Button Content="Remove selected"
+                    Style="{StaticResource ButtonDanger}"
+                    Command="{Binding RemoveIrmaaBracketCommand}"/>
+        </StackPanel>
+
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,98 @@
+<UserControl x:Class="ExitPlan.UI.Views.SocialSecurityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <UserControl.DataContext>
+        <Binding Path="SocialSecurityVM"/>
+    </UserControl.DataContext>
+
+    <Grid Grid.Row="2" Margin="20,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="40"/>
+            <!-- spacing column -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Marital Status -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0 0 0 10">
+            <CheckBox Content="Married?" IsChecked="{Binding IsMarried}" VerticalAlignment="Center" ToolTip="Whether you are married. Enables the spouse Social Security fields."/>
+        </StackPanel>
+        <!-- Primary Column -->
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Primary Earner" FontWeight="Bold" FontSize="20" Margin="0 0 0 10"/>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Name:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Primary.Owner}" ToolTip="Name of the primary earner (higher lifetime earnings)."/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Current Age:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Primary.CurrentAge}" ToolTip="Current age of the primary earner."/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Claim Age:" Width="150"/>
+                <ComboBox Width="80"
+                          SelectedItem="{Binding Primary.ClaimAge, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding ClaimAgeOptions}"
+                          MinHeight="22"
+                          ToolTip="Age at which the primary earner starts claiming Social Security benefits. Must be 62–70 inclusive (earliest 62, FRA ~67, delayed credits max at 70)."/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Monthly Benefit at FRA:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Primary.BenefitAtFullRetirementAge, StringFormat=C}" ToolTip="Monthly benefit amount at Full Retirement Age. Used to calculate early reduction or delayed credits."/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Death Age:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Primary.DeathAge}" ToolTip="Expected age of death for the primary earner. Used for survivor benefit calculations."/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Cola:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Primary.ColaRate, StringFormat=P}" ToolTip="Annual Cost of Living Adjustment rate for Social Security benefits (historical average ~2.1%)."/>
+            </StackPanel>
+        </StackPanel>
+        <!-- Spouse Column -->
+        <StackPanel Grid.Column="2"
+            Visibility="{Binding IsMarried, Converter={StaticResource BoolToVisibility}}">
+            <TextBlock Text="Spouse"
+               FontWeight="Bold"
+               FontSize="20"
+               Margin="0 0 0 10"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Name:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Spouse.Owner}" ToolTip="Name of the spouse."/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Current Age:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Spouse.CurrentAge}" ToolTip="Current age of the spouse."/>
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Claim Age:" Width="150"/>
+                <ComboBox Width="80"
+                          SelectedItem="{Binding Spouse.ClaimAge, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding ClaimAgeOptions}"
+                          MinHeight="22"
+                          ToolTip="Age at which the spouse starts claiming Social Security benefits. Must be 62–70 inclusive."/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Monthly Benefit at FRA:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Spouse.BenefitAtFullRetirementAge, StringFormat=C}" ToolTip="Monthly benefit at Full Retirement Age for the spouse."/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Death Age:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Spouse.DeathAge}" ToolTip="Expected age of death for the spouse."/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 8">
+                <TextBlock Text="Cola:" Width="150"/>
+                <TextBox Width="80" Text="{Binding Spouse.ColaRate, StringFormat=P}" ToolTip="Annual Cost of Living Adjustment rate for the spouse's Social Security benefits."/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
+

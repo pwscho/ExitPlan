@@ -1,0 +1,156 @@
+<UserControl x:Class="ExitPlan.UI.Views.ResultsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Margin="20">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+            <Button Content="Run Simulation"
+                Width="130"
+                Height="32"
+                Margin="5,5,5,5"
+                Command="{Binding RunSimulationCommand}" />
+
+            <Button Content="Generate Report"
+                Command="{Binding RunReportCommand}"
+                Width="130"
+                Height="32"
+                Margin="0,5,5,5"/>
+
+            <Button Content="Monte Carlo Settings"
+                    Command="{Binding ScenarioVM.OpenMonteCarloSettingsCommand}"
+                    Width="170"
+                    Height="32"
+                    Margin="0,5,5,5"
+                    ToolTip="Edit Monte Carlo simulation count and seed. Values save with the scenario."/>
+        </StackPanel>
+        <TabControl>
+
+                <!-- TAB 1: Simulation Results -->
+                <TabItem Header="Simulation Results">
+             <!--   <ScrollViewer VerticalScrollBarVisibility="Visible">-->
+
+                    <DataGrid ItemsSource="{Binding Results}"
+                          AutoGenerateColumns="False"
+                          ScrollViewer.CanContentScroll="True"
+                              HorizontalScrollBarVisibility="Visible"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          IsReadOnly="True"
+                          Height="450"
+                             
+                          Margin="0,10,0,10"
+>
+
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                            <DataGridTextColumn Header="Age" Binding="{Binding AgeDisplay}" />
+
+                            <DataGridTextColumn Header="Start Balance"
+                                            Binding="{Binding StartingBalance, StringFormat=C}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightYellow" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+
+                            <DataGridTextColumn Header="+Income"
+                                            Binding="{Binding Income, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="+Social Security"
+                                            Binding="{Binding SocialSecurityIncome, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="+Investment Return"
+                                            Binding="{Binding InvestmentReturn, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="-Spending"
+                                            Binding="{Binding Withdrawal, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="-Taxes Paid"
+                                            Binding="{Binding TaxesPaid, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="=End Balance"
+                                            Binding="{Binding EndingBalance, StringFormat=C}">
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="Background" Value="LightYellow" />
+                                        <Setter Property="Foreground" Value="Black" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="IRMAA Paid"
+                                            Binding="{Binding IrmaaPaid, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="RMDs"
+                                            Binding="{Binding Rmds, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Conversions"
+                                            Binding="{Binding Conversions, StringFormat=C0}" Width="100"/>
+
+                            <DataGridTextColumn Header="Magi"
+                                            Binding="{Binding Magi, StringFormat=C}" />
+
+
+                            <DataGridTextColumn Header="Taxable Income"
+                                            Binding="{Binding TaxableIncome, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Ordinary Income"
+                                            Binding="{Binding OrdinaryIncome, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Capital Gains"
+                                            Binding="{Binding CapitalGains, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Taxes Due"
+                                            Binding="{Binding TaxesDue, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Base Spending"
+                                            Binding="{Binding BaseSpending, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Add Spending"
+                                            Binding="{Binding AddedSpending, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Acct Withdrawal"
+                                            Binding="{Binding AccountWithdrawals, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Percent Withdrawal"
+                                            Binding="{Binding PercentWithdrawals, StringFormat=P}" />
+
+                            <DataGridTextColumn Header="Guardrail"
+                                            Binding="{Binding GuardrailActionLabel}" />
+
+                            <DataGridTextColumn Header="Inflation-only Spending"
+                                            Binding="{Binding InflationOnlyBaseSpending, StringFormat=C}" />
+
+                            <DataGridTextColumn Header="Port. / Baseline"
+                                            Binding="{Binding GuardrailPortfolioPercent, StringFormat=P1}" />
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+<!--</ScrollViewer>-->
+                </TabItem>
+
+                <!-- TAB 2: Account Balances -->
+                <TabItem Header="Owner / Tax Bucket Summary">
+                    <DataGrid x:Name="SummaryGrid"
+          ItemsSource="{Binding AccountSummary}"
+                                                        ScrollViewer.CanContentScroll="True"
+                              HorizontalScrollBarVisibility="Visible"
+                              Height="450"
+          AutoGenerateColumns="False"
+          IsReadOnly="True">
+                        <DataGrid.Columns>
+                        <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                    </DataGrid.Columns>
+                    </DataGrid>
+
+                </TabItem>
+
+        </TabControl>
+
+    </StackPanel>
+</UserControl>

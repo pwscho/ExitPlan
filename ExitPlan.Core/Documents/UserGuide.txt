@@ -1,0 +1,255 @@
+ExitPlan — Simple User’s Guide
+Version 2.3
+ExitPlan is a retirement‑planning simulator that helps you explore different financial scenarios, compare outcomes, and understand how your savings, income, and spending evolve over time. This guide walks you through each part of the app and explains how to run simulations and interpret the results.
+
+1. Getting Started
+When you open ExitPlan, you’ll see two main areas:
+
+Left Sidebar — Scenario Manager  
+This is where you create, copy, and delete scenarios.
+
+Main Area — Tabs  
+Each tab lets you enter different parts of your financial picture: accounts, income, Social Security, withdrawals, Roth conversions, and results.
+
+2. Managing Scenarios
+A scenario is a complete set of assumptions—your accounts, spending, Social Security, income, and more.
+
+Add a Scenario
+Click Add to create a new blank scenario.
+
+Copy a Scenario
+Click Copy to duplicate the selected scenario.
+This is useful when you want to compare “what‑if” versions (e.g., retire at 62 vs. 67).
+
+Delete a Scenario
+Click Delete to remove the selected scenario.
+
+3. Scenario Tab
+This tab defines the overall settings for your simulation:
+
+Base Year — The first year of the simulation.
+
+Years to Calculate — How long the simulation runs.
+
+Annual Spending — Your planned yearly spending (base spending, additional spending is in withdrawal tab).
+
+Inflation Rate — How spending grows over time (applies to base spending only, not to additional spending).
+
+Spending Strategy:
+
+	Fixed: Uses your chosen inflation rate every year.
+
+	Historical: Uses real historical inflation (if running a historical and Monte Carlo simulations).
+
+	Guardrails: Compares your portfolio with a baseline (the Initial Portfolio Value in Guardrail Settings). If the portfolio falls below the lower trigger, spending growth is cut. If it rises above the upper trigger, spending growth gets a bonus. Spending will not fall below the minimum floor. If the baseline is left at $0, ExitPlan fills it from your starting account balances when you run.
+
+Guardrail Settings (opens when you choose Guardrails) includes two inflation checkboxes. Both start unchecked, which keeps the previous behavior.
+
+	Increase floor with inflation — When checked, the minimum spending floor rises each year with inflation. When unchecked, the floor stays at its original dollar amount.
+
+	Increase baseline with inflation — When checked, the baseline used for the upper and lower trigger tests rises each year with the same inflation as spending. In a later year the target is your initial portfolio value compounded from the base year. A historical or Monte Carlo run compounds that run’s actual yearly inflation, not one flat rate. When unchecked, every year still compares the portfolio to the original portfolio value. This does not change how deep a cut or raise is, and it does not change the spending floor.
+
+Rebalance Annually — If checked, your accounts are rebalanced to your target equity percentage once per year.
+
+This tab sets the “big picture” assumptions.
+
+4. Accounts Tab
+Here you enter your financial accounts (additional spouse accounts are generated automatically when you check "Married" box). Each account includes:
+
+Owner (You or Spouse)
+
+Tax Bucket
+
+Taxable
+
+Tax Deferred (Traditional IRA/401k)
+
+Tax Free (Roth)
+
+Asset Class
+
+Equities
+
+Bonds
+
+Cash
+
+Starting Value
+
+Rate of Return (anticipated average annual return for the account) (Historical and Monte Carlo simulations will override this with historical returns or simulated returns)
+
+Priority (prioritizes which accounts get withrawn form in order.)
+
+These accounts are the foundation of the simulation. The engine tracks balances year‑by‑year, applies growth, withdrawals, RMDs, and inheritance rules.
+
+5. Social Security Tab
+Enter Social Security details for each person:
+
+Current Age
+
+Claim Age
+
+Death Age
+
+Benefit at Full Retirement Age
+
+COLA (Cost‑of‑Living Adjustment)
+
+The simulator automatically:
+
+Applies COLA increases starting at age 62
+
+Adjusts benefits for early or late claiming
+
+Deposits benefits into your cash account each year
+
+6. Income Tab
+Use this tab to add other income streams, such as:
+
+Pensions
+
+Part‑time work
+
+Rental income
+
+Annuities
+
+For each income stream, you specify:
+
+Owner
+
+Start age
+
+End age
+
+Annual amount
+
+Whether it is taxable
+
+The simulator deposits this income into your cash account each year.
+
+7. Withdrawals Tab
+Here you define planned withdrawals that supplement your base spending (no inflation is applied).
+
+Each withdrawal stream includes:
+
+Owner
+
+Start age
+
+End age
+
+Annual amount
+
+These amounts are added to your spending need for the year.
+
+8. Roth Conversions Tab
+Use this tab to schedule Roth conversions.
+
+For each conversion:
+
+Owner
+
+Start age
+
+End age
+
+Annual conversion amount
+
+The simulator:
+
+Withdraws from tax‑deferred accounts
+
+Moves the amount into Roth accounts
+
+Adds the conversion to taxable income
+
+9. Results Tab
+After running a simulation, this tab displays the year‑by‑year results.
+
+You’ll see:
+
+Balances
+Starting balance
+
+Ending balance
+
+Investment return
+
+Income
+Social Security
+
+Other income
+
+Required Minimum Distributions (RMDs)
+
+Roth conversions
+
+Spending & Withdrawals
+Base spending
+
+Added spending
+
+Total withdrawals
+
+Percent of portfolio withdrawn
+
+Taxes
+Taxable income
+
+Ordinary income
+
+Capital gains
+
+Taxes due
+
+IRMAA (Medicare surcharge, if applicable)
+
+Account‑Level Details
+For each account:
+
+Starting value
+
+Ending value
+
+Investment return
+
+This gives you a complete picture of how your retirement finances evolve.
+
+10. Running a Simulation
+Simulations run automatically when you view the Results tab or when the app triggers a recalculation.
+
+Behind the scenes, the engine:
+
+Pays last year’s taxes
+
+Deposits Social Security and income
+
+Calculates spending need
+
+Withdraws funds using your withdrawal strategy
+
+Applies RMDs
+
+Applies Roth conversions
+
+Handles inheritance if someone reaches their death age
+
+Applies investment growth
+
+Computes taxes for the year
+
+Records all results
+
+You don’t need to manage any of this manually—the app handles it for you.
+
+11. Tips for Best Use
+Use Copy Scenario to compare different retirement ages or spending levels.
+
+Keep account tax buckets accurate—taxes and RMDs depend on them.
+
+Review the Percent Withdrawals column to see if your plan is sustainable.
+
+Use Roth conversions strategically to manage future RMDs and taxes.
+
+Tax data, Scenario data, RMD table, and Market Historical Data are all stored in individual JSON files.

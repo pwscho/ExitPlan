@@ -1,0 +1,116 @@
+<Window x:Class="ExitPlan.UI.Views.GuardrailEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Guardrail Settings"
+        Height="580"
+        Width="480"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Guardrail Spending Settings"
+                   FontSize="18"
+                   FontWeight="Bold"
+                   Margin="0 0 0 15"/>
+
+        <StackPanel Grid.Row="1" Margin="0 10 0 10">
+
+            <!-- TARGET PORTFOLIO VALUE -->
+            <TextBlock Text="Target Portfolio Value" FontWeight="SemiBold" Margin="0 0 0 5"/>
+
+            <StackPanel Orientation="Horizontal" Margin="10 2">
+                <TextBlock Text="Initial Portfolio Value ($):" Width="240"/>
+                <TextBox Width="120"
+                         Text="{Binding InitialPortfolioValue, Mode=TwoWay}"
+                         ToolTip="Starting portfolio value used as the reference point for guardrail triggers."/>
+            </StackPanel>
+
+            <!-- LOWER GUARDRAIL -->
+            <TextBlock Text="Lower Guardrail" FontWeight="Bold" Margin="0 15 0 5"/>
+
+            <StackPanel Orientation="Horizontal" Margin="10 2">
+                <TextBlock Text="Lower Trigger:" Width="240"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                             Text="{Binding LowerTriggerPct, Mode=TwoWay}"
+                             ToolTip="Portfolio drops below this % of target triggers the lower guardrail (e.g. 90 = 90%)."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 2">
+                <TextBlock Text="Inflation Cut:" Width="240"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                             Text="{Binding LowerCutPct, Mode=TwoWay}"
+                             ToolTip="When lower guardrail triggers, reduce spending inflation by this % to slow depletion."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 2">
+                <TextBlock Text="Min Spending Floor:" Width="240"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                             Text="{Binding MinSpendingFloorPct, Mode=TwoWay}"
+                             ToolTip="Spending will never drop below this % of your base spending."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <CheckBox Content="Increase floor with inflation"
+                      IsChecked="{Binding InflateSpendingFloor, Mode=TwoWay}"
+                      Margin="10 8 0 2"
+                      ToolTip="When enabled, the minimum spending floor grows each year with the scenario inflation rate. When disabled, the floor stays in nominal (year-1) dollars."/>
+
+            <CheckBox Content="Increase baseline with inflation"
+                      IsChecked="{Binding IncreaseBaselineWithInflation, Mode=TwoWay}"
+                      Margin="10 2 0 2"
+                      ToolTip="When enabled, the portfolio baseline used for the upper and lower trigger tests grows each year with inflation, the same inflation that grows spending. When disabled, those tests keep using the initial portfolio value."/>
+
+            <!-- UPPER GUARDRAIL -->
+            <TextBlock Text="Upper Guardrail" FontWeight="Bold" Margin="0 15 0 5"/>
+
+            <StackPanel Orientation="Horizontal" Margin="10 2">
+                <TextBlock Text="Upper Trigger:" Width="240"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                             Text="{Binding UpperTriggerPct, Mode=TwoWay}"
+                             ToolTip="Portfolio exceeds this % of target triggers the upper guardrail (e.g. 120 = 120%)."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="10 2">
+                <TextBlock Text="Bonus Inflation:" Width="240"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                             Text="{Binding UpperBonusPct, Mode=TwoWay}"
+                             ToolTip="When upper guardrail triggers, add this % bonus to spending inflation."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+
+        <!-- BUTTONS -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK"
+                    Width="80"
+                    Margin="0 0 10 0"
+                    IsDefault="True"
+                    Command="{Binding SaveCommand}"/>
+
+            <Button Content="Cancel"
+                    Width="80"
+                    IsCancel="True"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

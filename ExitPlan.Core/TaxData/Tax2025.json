@@ -1,0 +1,156 @@
+﻿{
+  "Year": 2025,
+
+  "Single": {
+    "StandardDeduction": 14600,
+    "OrdinaryBrackets": [
+      {
+        "Threshold": 11925,
+        "Rate": 0.10
+      },
+      {
+        "Threshold": 48475,
+        "Rate": 0.12
+      },
+      {
+        "Threshold": 103350,
+        "Rate": 0.22
+      },
+      {
+        "Threshold": 197300,
+        "Rate": 0.24
+      },
+      {
+        "Threshold": 250525,
+        "Rate": 0.32
+      },
+      {
+        "Threshold": 626350,
+        "Rate": 0.35
+      },
+      {
+        "Threshold": 999999999,
+        "Rate": 0.37
+      }
+    ],
+    "CapitalGainsBrackets": [
+      {
+        "Threshold": 47150,
+        "Rate": 0.00
+      },
+      {
+        "Threshold": 518900,
+        "Rate": 0.15
+      },
+      {
+        "Threshold": 999999999,
+        "Rate": 0.20
+      }
+    ],
+    "IrmaaBrackets": [
+      {
+        "Threshold": 103000,
+        "MonthlySurcharge": 0.00
+      },
+      {
+        "Threshold": 129000,
+        "MonthlySurcharge": 69.90
+      },
+      {
+        "Threshold": 161000,
+        "MonthlySurcharge": 174.70
+      },
+      {
+        "Threshold": 193000,
+        "MonthlySurcharge": 279.50
+      },
+      {
+        "Threshold": 500000,
+        "MonthlySurcharge": 384.30
+      },
+      {
+        "Threshold": 999999999,
+        "MonthlySurcharge": 419.30
+      }
+    ]
+  },
+
+  "MarriedFilingJointly": {
+    "StandardDeduction": 31500,
+    "OrdinaryBrackets": [
+      {
+        "Threshold": 23850,
+        "Rate": 0.10
+      },
+      {
+        "Threshold": 96950,
+        "Rate": 0.12
+      },
+      {
+        "Threshold": 206700,
+        "Rate": 0.22
+      },
+      {
+        "Threshold": 394600,
+        "Rate": 0.24
+      },
+      {
+        "Threshold": 501050,
+        "Rate": 0.32
+      },
+      {
+        "Threshold": 751600,
+        "Rate": 0.35
+      },
+      {
+        "Threshold": 999999999,
+        "Rate": 0.37
+      }
+    ],
+    "CapitalGainsBrackets": [
+      {
+        "Threshold": 94300,
+        "Rate": 0.00
+      },
+      {
+        "Threshold": 583750,
+        "Rate": 0.15
+      },
+      {
+        "Threshold": 999999999,
+        "Rate": 0.20
+      }
+    ],
+    "IrmaaBrackets": [
+      {
+        "Threshold": 206000,
+        "MonthlySurcharge": 0.00
+      },
+      {
+        "Threshold": 258000,
+        "MonthlySurcharge": 69.90
+      },
+      {
+        "Threshold": 322000,
+        "MonthlySurcharge": 174.70
+      },
+      {
+        "Threshold": 386000,
+        "MonthlySurcharge": 279.50
+      },
+      {
+        "Threshold": 750000,
+        "MonthlySurcharge": 384.30
+      },
+      {
+        "Threshold": 999999999,
+        "MonthlySurcharge": 419.30
+      }
+    ]
+  },
+
+  "SingleSsBaseThreshold": 25000,
+  "SingleSsSecondThreshold": 34000,
+  "MarriedSsBaseThreshold": 32000,
+  "MarriedSsSecondThreshold": 44000
+}

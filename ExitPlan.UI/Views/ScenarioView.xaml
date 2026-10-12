@@ -1,0 +1,133 @@
+<UserControl x:Class="ExitPlan.UI.Views.ScenarioView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Width="434">
+
+
+
+    <StackPanel Margin="0,0,0,0">
+
+        <StackPanel Orientation="Horizontal" Margin="5"/>
+
+        <StackPanel Margin="10">
+
+            <TextBlock Text="Scenario Name"
+               FontWeight="Bold"
+               FontSize="20"
+               Margin="0 0 0 4"/>
+
+            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="A descriptive name for this retirement scenario to distinguish it from others."/>
+
+
+
+
+            <!-- existing ScenarioView content continues here -->
+
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Start Year:" Width="180"/>
+            <TextBox Width="125"
+                     Text="{Binding BaseYear, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="The calendar year the simulation begins (e.g. 2026 for the current year)."/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Years to Calculate:" Width="180"/>
+            <TextBox Width="125"
+                     Text="{Binding YearsToCalculate, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
+                     ToolTip="Total number of years to project. Derived from the oldest person's death age."/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Base Annual Spending:" Width="180"/>
+            <TextBox Width="125"
+                     Text="{Binding AnnualSpending, StringFormat=C, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Your target annual spending in today's dollars. This is the base amount before inflation adjustments."/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Spending/Inflation Strategy:" Width="180" VerticalAlignment="Center" />
+
+            <ComboBox Width="100"
+          SelectedValue="{Binding SpendingStrategy, Mode=TwoWay}"
+          SelectedValuePath="Content"
+          ToolTip="How spending adjusts over time: Fixed uses your inflation rate, Historical uses actual CPI data, Guardrails dynamically adjusts based on portfolio performance." RenderTransformOrigin="0.363,0.473">
+                <ComboBoxItem Content="Fixed"/>
+                <ComboBoxItem Content="Historical"/>
+                <ComboBoxItem Content="Guardrails"/>
+            </ComboBox>
+
+            <Button Content=".."
+                    Command="{Binding GuardrailEditorWindow}"
+                    Width="20"
+                    Margin="5 0 0 0" Click="Button_Click_1"/>
+
+        </StackPanel>
+
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Fixed Inflation Rate:" Width="180"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Width="80"
+                         Text="{Binding InflationRatePct, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="The assumed annual inflation rate (e.g. 2 for 2%). Used only when strategy is set to Fixed."/>
+                <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Last Year's Taxes:" Width="180"/>
+            <TextBox Width="125"
+                     Text="{Binding TaxesFromLastYear, StringFormat=C, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="The total federal income tax you paid in the most recent tax year. Used as a baseline for tax projections."/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Guardrail Portfolio Baseline:" Width="180"/>
+            <TextBox Width="125"
+                     Text="{Binding InitialPortfolioValue, StringFormat=C, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Starting portfolio used by Guardrails. If left at $0, ExitPlan fills this from account balances when you run a simulation so Guardrails is not a no-op."/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="5"/>
+
+        <!-- Rebalancing Section -->
+        <StackPanel Margin="0 20 0 0">
+
+            <CheckBox Content="Adjust Tax Rates for Inflation"
+             IsChecked="{Binding EnableTaxBracketInflation}"
+             Margin="5 0 0 10"
+             ToolTip="When enabled, tax bracket thresholds are adjusted upward each year by the inflation rate, matching how the IRS historically adjusts brackets."/>
+            <CheckBox Content="Rebalance Annually"
+              IsChecked="{Binding RebalanceAnnually}"
+              Margin="5 0 0 10"
+              ToolTip="When enabled, account allocations are rebalanced to target equity and bond percentages at the start of each year."/>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Equity Allocation:" Width="180"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                     Text="{Binding TargetEquityPct, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Target percentage of your portfolio to hold in stocks (e.g. 60 for 60%)."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Bond Allocation:" Width="180"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="80"
+                     Text="{Binding TargetBondPct, UpdateSourceTrigger=PropertyChanged}"
+                     ToolTip="Target percentage of your portfolio to hold in bonds (e.g. 40 for 40%)."/>
+                    <TextBlock Text="%" Margin="4 0 0 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+
+
+    </StackPanel>
+</UserControl>
+
+
