@@ -123,7 +123,9 @@ On every launch the app copies a file from the install (or from an older Inno Se
 
 Older Inno installs stored those files next to the program, usually `%LocalAppData%\Programs\ExitPlan` or `C:\Program Files\ExitPlan`. The first launch of this version copies them across when the Documents copy is missing. If you installed Inno to some other folder, copy `Data`, `TaxData`, `RMDData`, and `MarketData` into `Documents\ExitPlan` yourself before the first launch (or start once, then replace the copied defaults with your copies).
 
-Developers can point at another folder with the `EXITPLAN_DATA_DIR` environment variable. A normal `dotnet run` still uses Documents, so the sample `AppState.json` in the repo is only the seed for a Documents folder that does not have one yet.
+Developers can point at another folder with the `EXITPLAN_DATA_DIR` environment variable. A normal `dotnet run` still uses Documents, so the sample `AppState.json` in the repo is only the seed for a Documents folder that does not have one yet. When `EXITPLAN_DATA_DIR` is set it overrides a saved folder for that run.
+
+The File menu has **Open AppState.json**, **Choose Data Folder**, **Open Data Folder**, and **Reset to Default Folder**. The main window shows the active folder and the AppState.json path; clicking that line opens the folder in Explorer. The choice is stored in `%LocalAppData%\ExitPlan\data-location.json`, next to the Velopack install and not inside `current`, so an update does not erase it. Uninstall still removes `%LocalAppData%\ExitPlan`. If the saved folder is missing, ExitPlan uses `Documents\ExitPlan` and says so. Choosing a folder that lacks data files lists what is missing and, only if you agree, copies the built-in Tax, RMD, and market files plus a sample AppState.json. Existing files are not overwritten.
 
 ---
 

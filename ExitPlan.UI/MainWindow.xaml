@@ -3,13 +3,67 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:ExitPlan.UI.Views"
         xmlns:core="clr-namespace:ExitPlan.Core;assembly=ExitPlan.Core"
-        Title="{x:Static core:ProductInfo.Title}" Height="700" Width="1100"
+        Title="{Binding WindowTitle}" Height="700" Width="1100"
         Icon="/Assets/ExitPlan.ico"
         MinWidth="900" MinHeight="550"
         Background="{StaticResource BackgroundBrush}"
         FontFamily="{StaticResource AppFontFamily}">
 
     <DockPanel>
+
+        <Menu DockPanel.Dock="Top"
+              Background="{StaticResource SurfaceBrush}"
+              FontSize="13">
+            <MenuItem Header="_File">
+                <MenuItem Header="Open AppState.json..."
+                          Click="OpenAppState_Click"/>
+                <MenuItem Header="Choose Data Folder..."
+                          Click="ChooseDataFolder_Click"/>
+                <Separator/>
+                <MenuItem Header="Open Data Folder"
+                          Click="OpenDataFolder_Click"/>
+                <MenuItem Header="Reset to Default Folder"
+                          Click="ResetDataFolder_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Button DockPanel.Dock="Bottom"
+                Click="OpenDataFolder_Click"
+                HorizontalContentAlignment="Stretch"
+                Cursor="Hand"
+                ToolTip="Open this folder in Explorer"
+                AutomationProperties.Name="Open data folder"
+                Background="{StaticResource HighlightBrush}"
+                BorderBrush="{StaticResource PrimaryBrush}"
+                BorderThickness="0,2,0,0"
+                Padding="12,8">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+            <TextBlock TextWrapping="Wrap"
+                       FontSize="13"
+                       Foreground="{StaticResource TextPrimaryBrush}">
+                <Run Text="Data folder: " FontWeight="SemiBold"/>
+                <Run Text="{Binding ActiveDataFolder}"
+                     Foreground="{StaticResource PrimaryBrush}"
+                     TextDecorations="Underline"/>
+                <Run Text="   (click to open in Explorer)"
+                     FontSize="12"
+                     Foreground="{StaticResource TextSecondaryBrush}"/>
+                <LineBreak/>
+                <Run Text="AppState.json: " FontWeight="SemiBold"/>
+                <Run Text="{Binding AppStatePath}"
+                     Foreground="{StaticResource PrimaryBrush}"
+                     TextDecorations="Underline"/>
+            </TextBlock>
+        </Button>
 
         <!-- Left Sidebar: Scenario Manager -->
         <Border DockPanel.Dock="Left"

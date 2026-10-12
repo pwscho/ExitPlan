@@ -30,6 +30,12 @@ namespace ExitPlan.UI.ViewModels
         public RelayCommand SaveCommand { get; }
         public ICommand RunReportCommand { get; }
 
+        public string ActiveDataFolder => AppDataPaths.ActiveRoot;
+
+        public string AppStatePath => AppDataPaths.AppStatePath;
+
+        public string WindowTitle => $"{ProductInfo.Title} — {ActiveDataFolder}";
+
         public ObservableCollection<ResultRow> Results { get; } = new();
         public ObservableCollection<AccountBalanceRow> AccountBalances { get; } = new();
         public ObservableCollection<AccountSummaryRow> AccountSummary { get; } = new();

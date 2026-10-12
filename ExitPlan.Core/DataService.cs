@@ -4,6 +4,7 @@ namespace ExitPlan.Core;
 
 public static class DataService
 {
+    // Always AppState.json inside the one active data folder.
     private static string FilePath => AppDataPaths.AppStatePath;
 
     public static AppState Load()

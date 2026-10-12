@@ -17,22 +17,100 @@ public static class UserDataMigrator
     };
 
     /// <summary>
-    /// Documents\ExitPlan. Velopack's install root is %LOCALAPPDATA%\ExitPlan and that whole
-    /// folder is removed on uninstall, so user-editable files live under Documents instead.
-    /// Set EXITPLAN_DATA_DIR to point at a different folder (tests, or a developer machine).
+    /// Documents\ExitPlan, or EXITPLAN_DATA_DIR when that variable is set.
+    /// Older installs under %LOCALAPPDATA%\Programs\ExitPlan are import sources, not the default folder.
+    /// Velopack's install root is %LOCALAPPDATA%\ExitPlan and that whole folder is removed on uninstall,
+    /// so user-editable files live under Documents instead.
     /// </summary>
-    public static string ResolveUserDataRoot()
+    public static string ResolveUserDataRoot() => AppDataPaths.DefaultRoot;
+
+    /// <summary>
+    /// The default folder still imports from older install locations. A folder the user picked
+    /// receives shipped defaults only, so a personal AppState.json from an old install is not
+    /// copied into that folder.
+    /// </summary>
+    public static IReadOnlyList<string> SeedSourcesFor(string destination, string defaultRoot)
     {
-        var configured = Environment.GetEnvironmentVariable("EXITPLAN_DATA_DIR");
-        if (!string.IsNullOrWhiteSpace(configured))
-            return configured.Trim();
+        if (AppDataPaths.PathsEqual(destination, defaultRoot))
+            return DefaultSourceRoots();
 
-        var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        if (!string.IsNullOrWhiteSpace(documents))
-            return Path.Combine(documents, "ExitPlan");
+        return new[] { AppContext.BaseDirectory };
+    }
 
-        var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return Path.Combine(local, "ExitPlan");
+    /// <summary>
+    /// Relative paths under <paramref name="root"/> that <see cref="Migrate"/> would consider.
+    /// </summary>
+    public static IReadOnlyList<string> RelativeContentFiles(string root)
+    {
+        var list = new List<string>();
+        if (string.IsNullOrWhiteSpace(root) || !Directory.Exists(root))
+            return list;
+
+        string full;
+        try
+        {
+            full = Path.GetFullPath(root);
+        }
+        catch (Exception)
+        {
+            return list;
+        }
+
+        foreach (var folder in ContentFolders)
+        {
+            var sourceFolder = Path.Combine(full, folder);
+            if (!Directory.Exists(sourceFolder))
+                continue;
+
+            IEnumerable<string> files;
+            try
+            {
+                files = Directory.EnumerateFiles(sourceFolder);
+            }
+            catch (Exception)
+            {
+                continue;
+            }
+
+            foreach (var file in files.OrderBy(path => path, StringComparer.OrdinalIgnoreCase))
+            {
+                var name = Path.GetFileName(file);
+                if (string.IsNullOrEmpty(name))
+                    continue;
+
+                list.Add(Path.Combine(folder, name));
+            }
+        }
+
+        return list;
+    }
+
+    /// <summary>
+    /// Files present in <paramref name="sourceRoots"/> and absent from <paramref name="userDataRoot"/>.
+    /// Does not create or overwrite anything.
+    /// </summary>
+    public static IReadOnlyList<string> ListMissing(string userDataRoot, IEnumerable<string> sourceRoots)
+    {
+        if (string.IsNullOrWhiteSpace(userDataRoot))
+            throw new ArgumentException("User data root is required.", nameof(userDataRoot));
+
+        var destination = Path.GetFullPath(userDataRoot);
+        var missing = new List<string>();
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var sourceRoot in sourceRoots)
+        {
+            foreach (var relative in RelativeContentFiles(sourceRoot))
+            {
+                if (!seen.Add(relative))
+                    continue;
+
+                if (!File.Exists(Path.Combine(destination, relative)))
+                    missing.Add(relative);
+            }
+        }
+
+        return missing;
     }
 
     /// <summary>
@@ -56,7 +134,12 @@ public static class UserDataMigrator
     }
 
     public static UserDataMigrationResult MigrateToDefault()
-        => Migrate(ResolveUserDataRoot(), DefaultSourceRoots(), applyOverride: true);
+    {
+        var destination = string.IsNullOrWhiteSpace(AppDataPaths.OverrideRoot)
+            ? ResolveUserDataRoot()
+            : AppDataPaths.OverrideRoot!;
+        return Migrate(destination, SeedSourcesFor(destination, ResolveUserDataRoot()), applyOverride: true);
+    }
 
     public static UserDataMigrationResult Migrate(
         string userDataRoot,

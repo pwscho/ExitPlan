@@ -7,8 +7,6 @@ namespace ExitPlan.Core.Taxes
 {
     public static class TaxPolicyLoader
     {
-        private const string TaxDataFolderName = "TaxData";
-
         public static TaxPolicy LoadForYear(int year)
         {
             string folder = ResolveTaxDataFolder();
@@ -147,26 +145,7 @@ namespace ExitPlan.Core.Taxes
             return int.TryParse(yearPart, out int year) ? year : -1;
         }
 
-        private static string ResolveTaxDataFolder()
-        {
-            if (!string.IsNullOrWhiteSpace(AppDataPaths.OverrideRoot))
-                return AppDataPaths.TaxDataDirectory;
-
-            string[] candidates =
-            {
-                Path.Combine(AppContext.BaseDirectory, TaxDataFolderName),
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, TaxDataFolderName),
-                Path.Combine(Directory.GetCurrentDirectory(), TaxDataFolderName)
-            };
-
-            foreach (var candidate in candidates)
-            {
-                if (Directory.Exists(candidate) && Directory.GetFiles(candidate, "Tax*.json").Length > 0)
-                    return candidate;
-            }
-
-            return candidates[0];
-        }
+        private static string ResolveTaxDataFolder() => AppDataPaths.TaxDataDirectory;
 
         private static void InflateFilingStatus(FilingStatusTaxTable table, decimal multiplier)
         {

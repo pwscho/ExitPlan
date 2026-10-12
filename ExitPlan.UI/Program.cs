@@ -16,6 +16,22 @@ public static class Program
             .SetAutoApplyOnStartup(false)
             .Run();
 
+        DataLocationResolution location;
+        try
+        {
+            location = DataLocationSettings.ActivateFromSavedChoice();
+        }
+        catch (Exception ex)
+        {
+            AppLog.Write("Could not apply the saved data folder. Using the default.", ex);
+            if (string.IsNullOrWhiteSpace(AppDataPaths.OverrideRoot))
+                AppDataPaths.OverrideRoot = AppDataPaths.DefaultRoot;
+            location = DataLocationResolution.ForFolder(AppDataPaths.ActiveRoot, AppDataPaths.DefaultRoot);
+        }
+
+        if (location.ShouldTellUser)
+            StartupNotices.DataFolderFallback = location.Notice;
+
         try
         {
             var migration = UserDataMigrator.MigrateToDefault();
@@ -34,6 +50,8 @@ public static class Program
         {
             AppLog.Write("User data migration failed.", ex);
         }
+
+        AppLog.Write(DataLocationSettings.FormatStartupLog(location));
 
         var app = new App();
         app.InitializeComponent();

@@ -1,0 +1,52 @@
+<Window x:Class="ExitPlan.UI.Views.MissingDataFilesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Create missing data files"
+        Icon="/Assets/ExitPlan.ico"
+        Width="560"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Background="{StaticResource BackgroundBrush}"
+        FontFamily="{StaticResource AppFontFamily}">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Bottom"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource DividerBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="20,16">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancel"
+                        Style="{StaticResource ButtonOutlined}"
+                        IsCancel="True"
+                        MinWidth="96"
+                        Margin="0,0,8,0"/>
+                <Button Content="Create files"
+                        Style="{StaticResource ButtonPrimary}"
+                        IsDefault="True"
+                        MinWidth="128"
+                        Click="Create_Click"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Margin="24,20,24,8">
+            <TextBlock TextWrapping="Wrap"
+                       FontSize="14"
+                       Foreground="{StaticResource TextPrimaryBrush}"
+                       Text="This folder is missing data files ExitPlan needs. Create them from the built-in defaults? Tax, RMD, and market files are copied, plus a sample AppState.json when that file is missing. Files already in the folder are left as they are."/>
+
+            <TextBlock x:Name="FolderText"
+                       Margin="0,16,0,8"
+                       FontSize="13"
+                       FontWeight="SemiBold"
+                       TextWrapping="Wrap"
+                       Foreground="{StaticResource TextPrimaryBrush}"/>
+
+            <ListBox x:Name="FilesList"
+                     MaxHeight="240"
+                     FontSize="13"/>
+        </StackPanel>
+    </DockPanel>
+</Window>

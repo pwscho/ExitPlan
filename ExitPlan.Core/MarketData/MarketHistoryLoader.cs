@@ -5,6 +5,7 @@ namespace ExitPlan.Core.MarketData
 {
     public static class MarketHistoryLoader
     {
+        // Always MarketData.json inside the one active data folder.
         private static string FilePath => AppDataPaths.MarketDataPath;
 
         public static string GetFilePath() => FilePath;

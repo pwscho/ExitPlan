@@ -38,6 +38,16 @@ namespace ExitPlan.UI
             MainWindow = main;
             main.Show();
             ShutdownMode = ShutdownMode.OnLastWindowClose;
+
+            if (!string.IsNullOrWhiteSpace(StartupNotices.DataFolderFallback))
+            {
+                MessageBox.Show(
+                    main,
+                    StartupNotices.DataFolderFallback,
+                    "ExitPlan",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
         }
     }
 }
