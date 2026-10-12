@@ -94,7 +94,7 @@ Copy the files to your machine and open **ExitPlan.sln**.
 
 ### Windows installer
 
-Preferred path for other people: GitHub Releases, as in **[DISTRIBUTE.md](DISTRIBUTE.md)** (bump the version, `git tag vX.Y.Z` on `master`, or **Actions → Windows installer → Run workflow**). That produces `ExitPlan-win-Setup.exe` plus the Velopack nupkg and `releases.win.json` on `windows-latest`. Authenticode signing is done locally, and the SHA256 is published on the Release. CI does not hold a signing certificate.
+Preferred path for other people: GitHub Releases, as in **[DISTRIBUTE.md](DISTRIBUTE.md)** (bump the version, `git tag vX.Y.Z` on `master`, or **Actions → Windows installer → Run workflow**). That produces `ExitPlan-win-Setup.exe` plus the Velopack nupkg and `releases.win.json` on `windows-latest`. The publisher Authenticode-signs locally and publishes the SHA256 on the Release. CI does not hold a signing certificate.
 
 Local build on a PC with the .NET 8 SDK:
 
