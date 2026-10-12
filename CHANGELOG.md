@@ -10,3 +10,4 @@
 
 - **Increase baseline with inflation** guardrail option (PR #30).
 - Social Security taxation thresholds fixed at statutory amounts, capital gains in provisional income, IRMAA included in the Investment Return, Account Withdrawals, and Percent Withdrawals columns (PR #29).
+

@@ -51,7 +51,7 @@
                        FontSize="13"
                        Foreground="{StaticResource TextPrimaryBrush}">
                 <Run Text="Data folder: " FontWeight="SemiBold"/>
-                <Run Text="{Binding ActiveDataFolder}"
+                <Run Text="{Binding ActiveDataFolder, Mode=OneWay}"
                      Foreground="{StaticResource PrimaryBrush}"
                      TextDecorations="Underline"/>
                 <Run Text="   (click to open in Explorer)"
@@ -59,7 +59,7 @@
                      Foreground="{StaticResource TextSecondaryBrush}"/>
                 <LineBreak/>
                 <Run Text="AppState.json: " FontWeight="SemiBold"/>
-                <Run Text="{Binding AppStatePath}"
+                <Run Text="{Binding AppStatePath, Mode=OneWay}"
                      Foreground="{StaticResource PrimaryBrush}"
                      TextDecorations="Underline"/>
             </TextBlock>
