@@ -1,10 +1,17 @@
+using System.Reflection;
+
 namespace ExitPlan.Core
 {
     public static class ProductInfo
     {
         public const string Name = "ExitPlan";
-        public const string Version = "2.3";
-        public const string Title = "ExitPlan 2.3";
+
+        /// <summary>
+        /// Assembly informational version with the SDK +git suffix removed.
+        /// </summary>
+        public static string Version { get; } = WithoutGitHash(ReadInformationalVersion());
+
+        public static string Title => Name + " " + Version;
 
         /// <summary>
         /// Short notice on the main window. Plain language only.
@@ -26,5 +33,42 @@ namespace ExitPlan.Core
 
         public const string SplashAcknowledgement =
             "By continuing, you acknowledge that you use ExitPlan at your own risk for personal planning only.";
+
+        /// <summary>
+        /// Velopack <c>CurrentVersion</c> when this copy is installed, otherwise <see cref="Version"/>.
+        /// Either value loses a trailing +git hash.
+        /// </summary>
+        public static string ChooseDisplayVersion(string? installedVersion)
+        {
+            var installed = WithoutGitHash(installedVersion);
+            return installed.Length == 0 ? Version : installed;
+        }
+
+        public static string WithoutGitHash(string? version)
+        {
+            if (string.IsNullOrWhiteSpace(version))
+                return "";
+
+            var plus = version.IndexOf('+');
+            return (plus >= 0 ? version[..plus] : version).Trim();
+        }
+
+        private static string ReadInformationalVersion()
+        {
+            var informational = typeof(ProductInfo).Assembly
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+                ?.InformationalVersion;
+            if (!string.IsNullOrWhiteSpace(informational))
+                return informational;
+
+            var version = typeof(ProductInfo).Assembly.GetName().Version;
+            if (version == null)
+                return "";
+
+            if (version.Revision > 0)
+                return version.ToString();
+
+            return version.Major + "." + version.Minor + "." + Math.Max(version.Build, 0);
+        }
     }
 }

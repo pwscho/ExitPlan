@@ -121,6 +121,7 @@ def main() -> None:
         "TaxData\\Tax2025.json",
         "RMDData\\RMD2025.json",
         "MarketData\\MarketData.json",
+        "LICENSE.md",
         "Data\\AppState.json",
         "vpk pack",
         "--packId",
@@ -234,9 +235,19 @@ def main() -> None:
     if "pfx" in workflow.lower() or "signtool" in workflow.lower():
         fail("workflow must not code-sign or reference certificates")
 
+    if "LICENSE.md" not in ui_csproj:
+        fail("ExitPlan.UI.csproj must copy LICENSE.md into the publish output")
+    license = ROOT / "LICENSE.md"
+    if not license.is_file():
+        fail("missing LICENSE.md")
+
     main_window = (ROOT / "ExitPlan.UI" / "MainWindow.xaml").read_text(encoding="utf-8")
     if "Check for updates" not in main_window:
         fail("MainWindow.xaml missing Check for updates")
+    if "About ExitPlan" not in main_window:
+        fail("MainWindow.xaml missing About ExitPlan")
+    if "_Help" not in main_window:
+        fail("MainWindow.xaml missing Help menu")
 
     print("OK packaging checks")
     print(f"  UI project:     ExitPlan.UI ({tf_match.group(1).strip()})")

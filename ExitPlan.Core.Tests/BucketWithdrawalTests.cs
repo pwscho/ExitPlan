@@ -294,13 +294,6 @@ namespace ExitPlan.Core.Tests
             Assert.Equal(14_000m, highPriorityHighBucket.Value);
         }
 
-        [Fact]
-        public void ProductInfo_IsVersion23()
-        {
-            Assert.Equal("2.3", ProductInfo.Version);
-            Assert.Equal("ExitPlan 2.3", ProductInfo.Title);
-        }
-
         private static Account Acct(
             string taxBucket,
             string asset,

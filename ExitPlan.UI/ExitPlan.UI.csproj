@@ -7,10 +7,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <Version>2.4.2</Version>
-    <AssemblyVersion>2.4.2.0</AssemblyVersion>
-    <FileVersion>2.4.0.0</FileVersion>
-    <InformationalVersion>2.3</InformationalVersion>
+    <!-- Only Version is the product version. The SDK sets assembly, file, and
+         informational versions from it, and appends +git to the informational
+         version (Windows ProductVersion). Do not pin those three properties. -->
+    <Version>2.4.3</Version>
     <Product>ExitPlan</Product>
     <ApplicationIcon>Assets\ExitPlan.ico</ApplicationIcon>
     <!-- WPF generates its own Main. Velopack has to run before any WPF startup. -->
@@ -28,6 +28,9 @@
 
   <ItemGroup>
     <Content Include="Data\AppState.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\LICENSE.md" Link="LICENSE.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -4,10 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>2.4.2</Version>
-    <AssemblyVersion>2.4.2.0</AssemblyVersion>
-    <FileVersion>2.4.0.0</FileVersion>
-    <InformationalVersion>2.3</InformationalVersion>
+    <!-- Only Version is the product version. The SDK sets assembly, file, and
+         informational versions from it, and appends +git to the informational
+         version (Windows ProductVersion). Do not pin those three properties. -->
+    <Version>2.4.3</Version>
     <Product>ExitPlan</Product>
   </PropertyGroup>
 

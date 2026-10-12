@@ -62,6 +62,15 @@ namespace ExitPlan.UI
             await UpdateChecker.CheckForUpdatesAsync(interactive: true);
         }
 
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new AboutWindow
+            {
+                Owner = this
+            };
+            win.ShowDialog();
+        }
+
         private void OpenAppState_Click(object sender, RoutedEventArgs e)
         {
             var initialDirectory = Directory.Exists(AppDataPaths.DataDirectory)

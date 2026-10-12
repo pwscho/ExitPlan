@@ -150,6 +150,7 @@ if ($LASTEXITCODE -ne 0) {
 
 $required = @(
     "ExitPlan.UI.exe",
+    "LICENSE.md",
     "Data\AppState.json",
     "TaxData\Tax2025.json",
     "TaxData\Tax2026.json",

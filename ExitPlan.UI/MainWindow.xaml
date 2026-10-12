@@ -25,38 +25,14 @@
                 <MenuItem Header="Reset to Default Folder"
                           Click="ResetDataFolder_Click"/>
             </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="Check for updates"
+                          Click="CheckForUpdates_Click"/>
+                <Separator/>
+                <MenuItem Header="_About ExitPlan..."
+                          Click="About_Click"/>
+            </MenuItem>
         </Menu>
-
-        <Button DockPanel.Dock="Bottom"
-                IsHitTestVisible="False" Focusable="False"
-                HorizontalContentAlignment="Stretch"
-                
-                
-                AutomationProperties.Name="Open data folder"
-                Background="{StaticResource HighlightBrush}"
-                BorderBrush="{StaticResource PrimaryBrush}"
-                BorderThickness="0,2,0,0"
-                Padding="12,8">
-            <Button.Template>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Button.Template>
-            <TextBlock TextWrapping="Wrap"
-                       FontSize="13"
-                       Foreground="{StaticResource TextPrimaryBrush}">
-                <Run Text="Data folder: " FontWeight="SemiBold"/>
-                <Run Text="{Binding ActiveDataFolder, Mode=OneWay}"/>
-                <LineBreak/>
-                <Run Text="AppState.json: " FontWeight="SemiBold"/>
-                <Run Text="{Binding AppStatePath, Mode=OneWay}"/>
-            </TextBlock>
-        </Button>
 
         <!-- Left Sidebar: Scenario Manager -->
         <Border DockPanel.Dock="Left"
@@ -143,14 +119,7 @@
                                 Style="{StaticResource ButtonOutlined}"
                                 Padding="10,8"
                                 HorizontalAlignment="Stretch"
-                                Margin="0,0,0,8"
                                 Click="OpenMarketData_Click"/>
-
-                        <Button Content="Check for updates"
-                                Style="{StaticResource ButtonOutlined}"
-                                Padding="10,8"
-                                HorizontalAlignment="Stretch"
-                                Click="CheckForUpdates_Click"/>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>

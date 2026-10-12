@@ -4,7 +4,7 @@ This is the **local** recipe. To ship a public download, bump the version, tag `
 
 The installer is [Velopack](https://velopack.io). It is a self-contained setup program, so someone can run ExitPlan **without** installing the .NET Desktop Runtime or Visual Studio. The same packages are what the app downloads later when the user chooses **Check for updates**.
 
-You need the **.NET 8 SDK**. `.\publish.ps1` installs the Velopack CLI (`vpk` 1.2.161, the same version as the Velopack NuGet package) if it is not already installed. The UI is WPF (`ExitPlan.UI`, `net8.0-windows`, product version **2.3.0**). GitHub Actions `windows-latest` is the usual way to pack a release; this page is the same script run by hand.
+You need the **.NET 8 SDK**. `.\publish.ps1` installs the Velopack CLI (`vpk` 1.2.161, the same version as the Velopack NuGet package) if it is not already installed. The UI is WPF (`ExitPlan.UI`, `net8.0-windows`, product version **2.4.2**). GitHub Actions `windows-latest` is the usual way to pack a release; this page is the same script run by hand.
 
 Linux can `dotnet publish` the win-x64 folder because the UI project sets `EnableWindowsTargeting`, and `.\publish.ps1` packs the Windows installer from Linux as well (`vpk [win] pack --runtime win-x64 --channel win`). You still cannot *run* the WPF app on Linux.
 
@@ -14,7 +14,7 @@ Linux can `dotnet publish` the win-x64 folder because the UI project sets `Enabl
 | --- | --- |
 | Published app folder | `artifacts\win-x64\` |
 | Installer | `artifacts\ExitPlan-win-Setup.exe` |
-| Full package | `artifacts\ExitPlan-2.3.0-full.nupkg` |
+| Full package | `artifacts\ExitPlan-2.4.2-full.nupkg` |
 | Delta package | `artifacts\ExitPlan-<version>-delta.nupkg` only when an older Velopack package is already in `artifacts\` |
 | Update feed | `artifacts\releases.win.json` |
 
@@ -40,6 +40,7 @@ That publishes a self-contained `win-x64` folder and then runs `vpk pack` (pack 
 The script fails if these files are missing from the publish folder:
 
 - `ExitPlan.UI.exe`
+- `LICENSE.md`
 - `Data\AppState.json`
 - `TaxData\Tax2025.json`
 - `TaxData\Tax2026.json`
@@ -58,11 +59,11 @@ In-app update checks use the same public URL and do not use a token. Source stay
 
 ```text
 artifacts\ExitPlan-win-Setup.exe
-artifacts\ExitPlan-2.3.0-full.nupkg
+artifacts\ExitPlan-2.4.2-full.nupkg
 artifacts\releases.win.json
 ```
 
-The `2.3.0` part is `<Version>` in `ExitPlan.UI.csproj`. `artifacts\` is gitignored. For other people, the Windows installer workflow attaches these files to a GitHub Release. Share https://github.com/pwscho/ExitPlan/releases/latest.
+The `2.4.2` part is `<Version>` in `ExitPlan.UI.csproj`. `artifacts\` is gitignored. For other people, the Windows installer workflow attaches these files to a GitHub Release. Share https://github.com/pwscho/ExitPlan/releases/latest.
 
 Recipients run **`ExitPlan-win-Setup.exe`**. They do not run the nupkg by hand. The nupkg and `releases.win.json` are what already-installed copies download.
 
@@ -125,20 +126,22 @@ Older Inno installs stored those files next to the program, usually `%LocalAppDa
 
 Developers can point at another folder with the `EXITPLAN_DATA_DIR` environment variable. A normal `dotnet run` still uses Documents, so the sample `AppState.json` in the repo is only the seed for a Documents folder that does not have one yet. When `EXITPLAN_DATA_DIR` is set it overrides a saved folder for that run.
 
-The File menu has **Open AppState.json**, **Choose Data Folder**, **Open Data Folder**, and **Reset to Default Folder**. The main window shows the active folder and the AppState.json path; clicking that line opens the folder in Explorer. The choice is stored in `%LocalAppData%\ExitPlan\data-location.json`, next to the Velopack install and not inside `current`, so an update does not erase it. Uninstall still removes `%LocalAppData%\ExitPlan`. If the saved folder is missing, ExitPlan uses `Documents\ExitPlan` and says so. Choosing a folder that lacks data files lists what is missing and, only if you agree, copies the built-in Tax, RMD, and market files plus a sample AppState.json. Existing files are not overwritten.
+The File menu has **Open AppState.json**, **Choose Data Folder**, **Open Data Folder**, and **Reset to Default Folder**. **Help → About ExitPlan** shows the active folder and the AppState.json path as selectable text, with Copy for each. The choice is stored in `%LocalAppData%\ExitPlan\data-location.json`, next to the Velopack install and not inside `current`, so an update does not erase it. Uninstall still removes `%LocalAppData%\ExitPlan`. If the saved folder is missing, ExitPlan uses `Documents\ExitPlan` and says so. Choosing a folder that lacks data files lists what is missing and, only if you agree, copies the built-in Tax, RMD, and market files plus a sample AppState.json. Existing files are not overwritten.
 
 ---
 
 ## How to bump the version
 
-The product version on master is **2.3** (`<Version>2.3.0</Version>` in `ExitPlan.UI.csproj` and `ExitPlan.Core`, `ProductInfo.Version` in `ExitPlan.Core`). **Do not reuse tag `v2.3.0`.** That tag already has an Inno Setup installer. The first Velopack release needs a new version.
+The product version is `<Version>` in `ExitPlan.UI.csproj` and the same `<Version>` in `ExitPlan.Core` (today **2.4.2**). Tag `v` plus that version (`v2.4.2`). **Do not reuse tag `v2.3.0`.** That tag already has an Inno Setup installer. The first Velopack release needs a new version.
+
+Do not set `<AssemblyVersion>`, `<FileVersion>`, or `<InformationalVersion>`. The SDK fills those from `<Version>`, then appends `+` and the git commit to the informational version. Windows shows that string as ProductVersion. An explicit `<InformationalVersion>2.3</InformationalVersion>` left ProductVersion as `2.3+<hash>` after `<Version>` had moved on, and `<FileVersion>` had stayed at `2.4.0.0`. There is no `Directory.Build.props`. `publish.ps1` and `.github/workflows/windows-installer.yml` do not pass `-p:Version`; the workflow checks that the tag matches `<Version>`. The window title and splash use that informational version with the git suffix removed. About uses the Velopack installed version when the copy was installed with Setup.exe.
 
 | What you are shipping | Edit this |
 | --- | --- |
-| Installer feed version and the nupkg name | `ExitPlan.UI.csproj` `<Version>` and the same `<Version>` in `ExitPlan.Core`. Tag `v` plus that version (`v2.4.0`). |
-| Window title “ExitPlan 2.3” | `ExitPlan.Core\ProductInfo.cs` |
+| Installer feed version and the nupkg name | `<Version>` in `ExitPlan.UI.csproj` and `ExitPlan.Core`. Tag `v` plus that version. |
+| Window title, splash, and About version | Nothing else. They read the assembly informational version, or the Velopack version when installed. |
 
-Velopack versions are three-part semver (`2.4.0`), which matches `<Version>`. The update prompt shows that number. The app does not update itself unless the user chooses **Yes**.
+Velopack versions are three-part semver (`2.4.2`), which matches `<Version>`. The update prompt shows that number. The app does not update itself unless the user chooses **Yes**.
 
 ---
 

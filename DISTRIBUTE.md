@@ -6,7 +6,7 @@ Public download after a release is published:
 
 Send people that link. They want **`ExitPlan-win-Setup.exe`**. They do **not** need Visual Studio, the .NET SDK, or the .NET Desktop Runtime.
 
-The installer version is `ExitPlan.UI.csproj` `<Version>` (today **2.3.0**). Do not invent a second scheme. Tag `v2.4.0` for product 2.4.0. **`v2.3.0` is already published** as an Inno Setup file, so the first Velopack release has to be a newer version. This change does not bump the version.
+The installer version is `ExitPlan.UI.csproj` `<Version>` (today **2.4.2**). Do not invent a second scheme, and do not set `<InformationalVersion>`, `<FileVersion>`, or `<AssemblyVersion>` to a different number. The SDK derives those from `<Version>`. Tag `v2.4.2` for product 2.4.2. **`v2.3.0` is already published** as an Inno Setup file, so the first Velopack release has to be a newer version. This change does not bump the version.
 
 Wait until any feature PRs you want in the build are merged to `master`, then cut the release from `master`.
 
