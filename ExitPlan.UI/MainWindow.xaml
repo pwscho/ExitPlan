@@ -28,10 +28,10 @@
         </Menu>
 
         <Button DockPanel.Dock="Bottom"
-                Click="OpenDataFolder_Click"
+                IsHitTestVisible="False" Focusable="False"
                 HorizontalContentAlignment="Stretch"
-                Cursor="Hand"
-                ToolTip="Open this folder in Explorer"
+                
+                
                 AutomationProperties.Name="Open data folder"
                 Background="{StaticResource HighlightBrush}"
                 BorderBrush="{StaticResource PrimaryBrush}"
@@ -51,17 +51,10 @@
                        FontSize="13"
                        Foreground="{StaticResource TextPrimaryBrush}">
                 <Run Text="Data folder: " FontWeight="SemiBold"/>
-                <Run Text="{Binding ActiveDataFolder, Mode=OneWay}"
-                     Foreground="{StaticResource PrimaryBrush}"
-                     TextDecorations="Underline"/>
-                <Run Text="   (click to open in Explorer)"
-                     FontSize="12"
-                     Foreground="{StaticResource TextSecondaryBrush}"/>
+                <Run Text="{Binding ActiveDataFolder, Mode=OneWay}"/>
                 <LineBreak/>
                 <Run Text="AppState.json: " FontWeight="SemiBold"/>
-                <Run Text="{Binding AppStatePath, Mode=OneWay}"
-                     Foreground="{StaticResource PrimaryBrush}"
-                     TextDecorations="Underline"/>
+                <Run Text="{Binding AppStatePath, Mode=OneWay}"/>
             </TextBlock>
         </Button>
 
