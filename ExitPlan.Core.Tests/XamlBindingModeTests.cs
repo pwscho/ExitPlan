@@ -56,6 +56,56 @@ public class XamlBindingModeTests
     }
 
     [Fact]
+    public void MainWindow_Menus_FileConfigHelp()
+    {
+        var xaml = File.ReadAllText(Path.Combine(RepoRoot(), "ExitPlan.UI", "MainWindow.xaml"));
+        var file = xaml.IndexOf("Header=\"_File\"", StringComparison.Ordinal);
+        var config = xaml.IndexOf("Header=\"_Config\"", StringComparison.Ordinal);
+        var help = xaml.IndexOf("Header=\"_Help\"", StringComparison.Ordinal);
+        Assert.True(file >= 0 && config > file && help > config);
+
+        var fileMenu = xaml[file..config];
+        Assert.Contains("Header=\"Add Scenario...\"", fileMenu);
+        Assert.Contains("Command=\"{Binding ScenarioManager.AddScenarioCommand}\"", fileMenu);
+        Assert.Contains("Header=\"Copy Scenario...\"", fileMenu);
+        Assert.Contains("Command=\"{Binding ScenarioManager.DuplicateScenarioCommand}\"", fileMenu);
+        Assert.Contains("Header=\"Delete Scenario...\"", fileMenu);
+        Assert.Contains("Command=\"{Binding ScenarioManager.DeleteScenarioCommand}\"", fileMenu);
+        Assert.Contains("Header=\"Close\"", fileMenu);
+        Assert.Contains("InputGestureText=\"Alt+F4\"", fileMenu);
+        Assert.Contains("Click=\"Close_Click\"", fileMenu);
+        Assert.DoesNotContain("OpenAppState_Click", fileMenu);
+        Assert.DoesNotContain("OpenTaxSettings_Click", fileMenu);
+
+        var configMenu = xaml[config..help];
+        Assert.Contains("Header=\"Tax Settings...\"", configMenu);
+        Assert.Contains("Click=\"OpenTaxSettings_Click\"", configMenu);
+        Assert.Contains("Header=\"RMD Settings...\"", configMenu);
+        Assert.Contains("Click=\"OpenRmdSettings_Click\"", configMenu);
+        Assert.Contains("Header=\"Market Data...\"", configMenu);
+        Assert.Contains("Click=\"OpenMarketData_Click\"", configMenu);
+        Assert.Contains("Header=\"Open AppState.json...\"", configMenu);
+        Assert.Contains("Click=\"OpenAppState_Click\"", configMenu);
+        Assert.Contains("Header=\"Choose Data Folder...\"", configMenu);
+        Assert.Contains("Click=\"ChooseDataFolder_Click\"", configMenu);
+        Assert.Contains("Header=\"Open Data Folder\"", configMenu);
+        Assert.Contains("Click=\"OpenDataFolder_Click\"", configMenu);
+        Assert.Contains("Header=\"Reset to Default Folder\"", configMenu);
+        Assert.Contains("Click=\"ResetDataFolder_Click\"", configMenu);
+
+        var helpMenu = xaml[help..];
+        Assert.Contains("Header=\"Check for updates\"", helpMenu);
+        Assert.Contains("About ExitPlan...", helpMenu);
+
+        Assert.DoesNotContain("Content=\"Tax Settings\"", xaml);
+        Assert.DoesNotContain("Content=\"RMD Settings\"", xaml);
+        Assert.DoesNotContain("Content=\"Market Data\"", xaml);
+        Assert.Contains("Content=\"Add\"", xaml);
+        Assert.Contains("Content=\"Copy\"", xaml);
+        Assert.Contains("Content=\"Delete\"", xaml);
+    }
+
+    [Fact]
     public void MainWindow_HelpMenu_DoesNotShowDataPaths()
     {
         var xaml = File.ReadAllText(Path.Combine(RepoRoot(), "ExitPlan.UI", "MainWindow.xaml"));

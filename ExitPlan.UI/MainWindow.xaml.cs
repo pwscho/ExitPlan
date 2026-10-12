@@ -30,6 +30,11 @@ namespace ExitPlan.UI
             base.OnClosing(e);
         }
 
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         private void OpenTaxSettings_Click(object sender, RoutedEventArgs e)
         {
             var win = new TaxSettingsWindow(new TaxSettingsViewModel())

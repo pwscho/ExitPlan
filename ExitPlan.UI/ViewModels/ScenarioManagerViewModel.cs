@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows.Input;
 using ExitPlan.Core;
 using ExitPlan.Core.Taxes;
 
@@ -27,14 +26,15 @@ namespace ExitPlan.UI.ViewModels
                     _selectedScenario = value;
                     OnPropertyChanged();
                    // Debug.WriteLine($"SelectedScenario: state={value.GetHashCode()}");
-
+                    DuplicateScenarioCommand?.RaiseCanExecuteChanged();
+                    DeleteScenarioCommand?.RaiseCanExecuteChanged();
                 }
             }
         }
 
-        public ICommand AddScenarioCommand { get; }
-        public ICommand DuplicateScenarioCommand { get; }
-        public ICommand DeleteScenarioCommand { get; }
+        public RelayCommand AddScenarioCommand { get; }
+        public RelayCommand DuplicateScenarioCommand { get; }
+        public RelayCommand DeleteScenarioCommand { get; }
 
         // Fired when switching scenarios so MainViewModel can auto-save
         public event EventHandler<ScenarioState>? ScenarioSwitching;

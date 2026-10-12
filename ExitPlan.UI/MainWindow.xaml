@@ -15,6 +15,25 @@
               Background="{StaticResource SurfaceBrush}"
               FontSize="13">
             <MenuItem Header="_File">
+                <MenuItem Header="Add Scenario..."
+                          Command="{Binding ScenarioManager.AddScenarioCommand}"/>
+                <MenuItem Header="Copy Scenario..."
+                          Command="{Binding ScenarioManager.DuplicateScenarioCommand}"/>
+                <MenuItem Header="Delete Scenario..."
+                          Command="{Binding ScenarioManager.DeleteScenarioCommand}"/>
+                <Separator/>
+                <MenuItem Header="Close"
+                          InputGestureText="Alt+F4"
+                          Click="Close_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Config">
+                <MenuItem Header="Tax Settings..."
+                          Click="OpenTaxSettings_Click"/>
+                <MenuItem Header="RMD Settings..."
+                          Click="OpenRmdSettings_Click"/>
+                <MenuItem Header="Market Data..."
+                          Click="OpenMarketData_Click"/>
+                <Separator/>
                 <MenuItem Header="Open AppState.json..."
                           Click="OpenAppState_Click"/>
                 <MenuItem Header="Choose Data Folder..."
@@ -79,8 +98,7 @@
                         </ListBox>
 
                         <StackPanel Orientation="Horizontal"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="0 0 0 12">
+                                    HorizontalAlignment="Stretch">
                             <Button Content="Add"
                                     Style="{StaticResource ButtonText}"
                                     Margin="0 0 4 0"
@@ -98,28 +116,6 @@
                                     HorizontalContentAlignment="Center"
                                     Command="{Binding ScenarioManager.DeleteScenarioCommand}" />
                         </StackPanel>
-
-                        <Line Style="{StaticResource Divider}"/>
-
-                        <Button Content="Tax Settings"
-                                Style="{StaticResource ButtonOutlined}"
-                                Padding="10,8"
-                                HorizontalAlignment="Stretch"
-                                Margin="0,0,0,8"
-                                Click="OpenTaxSettings_Click"/>
-
-                        <Button Content="RMD Settings"
-                                Style="{StaticResource ButtonOutlined}"
-                                Padding="10,8"
-                                HorizontalAlignment="Stretch"
-                                Margin="0,0,0,8"
-                                Click="OpenRmdSettings_Click"/>
-
-                        <Button Content="Market Data"
-                                Style="{StaticResource ButtonOutlined}"
-                                Padding="10,8"
-                                HorizontalAlignment="Stretch"
-                                Click="OpenMarketData_Click"/>
                     </StackPanel>
                 </ScrollViewer>
             </DockPanel>
