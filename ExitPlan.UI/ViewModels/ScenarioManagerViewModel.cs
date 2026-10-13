@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using ExitPlan.Core;
 using ExitPlan.Core.Taxes;
 
@@ -36,14 +37,42 @@ namespace ExitPlan.UI.ViewModels
         public RelayCommand DuplicateScenarioCommand { get; }
         public RelayCommand DeleteScenarioCommand { get; }
 
+        private readonly Func<string, bool> _confirmDelete;
+
         // Fired when switching scenarios so MainViewModel can auto-save
         public event EventHandler<ScenarioState>? ScenarioSwitching;
 
-        public ScenarioManagerViewModel()
+        public ScenarioManagerViewModel(Func<string, bool>? confirmDelete = null)
         {
+            _confirmDelete = confirmDelete ?? ShowDeleteDialog;
             AddScenarioCommand = new RelayCommand(AddScenario);
             DuplicateScenarioCommand = new RelayCommand(DuplicateScenario, () => SelectedScenario != null);
             DeleteScenarioCommand = new RelayCommand(DeleteScenario, () => SelectedScenario != null);
+        }
+
+        private static bool ShowDeleteDialog(string message)
+        {
+            var defaultButton = ScenarioDeleteConfirmation.DefaultsToNo
+                ? MessageBoxResult.No
+                : MessageBoxResult.Yes;
+
+            var owner = Application.Current?.MainWindow;
+            var result = owner == null
+                ? MessageBox.Show(
+                    message,
+                    ScenarioDeleteConfirmation.Title,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question,
+                    defaultButton)
+                : MessageBox.Show(
+                    owner,
+                    message,
+                    ScenarioDeleteConfirmation.Title,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question,
+                    defaultButton);
+
+            return result == MessageBoxResult.Yes;
         }
 
         private void AddScenario()
@@ -80,23 +109,10 @@ namespace ExitPlan.UI.ViewModels
             if (SelectedScenario == null)
                 return;
 
-            var toRemove = SelectedScenario;
-            int index = Scenarios.IndexOf(toRemove);
-
-            Scenarios.Remove(toRemove);
-
-            if (Scenarios.Count == 0)
-            {
-                var newScenario = new ScenarioState { Name = "New Scenario" };
-                Scenarios.Add(newScenario);
-                SelectedScenario = newScenario;
+            if (!ScenarioDeleteConfirmation.TryDelete(Scenarios, SelectedScenario, _confirmDelete, out var selection))
                 return;
-            }
 
-            if (index >= Scenarios.Count)
-                index = Scenarios.Count - 1;
-
-            SelectedScenario = Scenarios[index];
+            SelectedScenario = selection;
         }
     }
 }
